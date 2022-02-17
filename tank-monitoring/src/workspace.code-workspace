@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": ".."
+		},
+		{
+			"name": "tank-monitoring",
+			"path": "..\\tank-monitoring"
+		}
+	],
+	"settings": {}
+}
