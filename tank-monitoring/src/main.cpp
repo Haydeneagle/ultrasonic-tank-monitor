@@ -9,7 +9,7 @@
 
 
 #define SONAR_NUM 2      // Number of sensors.
-#define MAX_DISTANCE 300 // Maximum distance (in cm) to ping.
+#define MAX_DISTANCE 350 // Maximum distance (in cm) to ping.
 
 
 // Define variables:
@@ -21,8 +21,8 @@ const char* mqttUser = "env";
 const char* mqttPassword = "WqoXY96LZ8JYdz";
 
 
-RTC_DATA_ATTR int tempMainDistance = 0;
-RTC_DATA_ATTR int tempUnitDistance = 0;
+//RTC_DATA_ATTR int tempMainDistance = 0;
+//RTC_DATA_ATTR int tempUnitDistance = 0;
 
 String mqttName = name;
 String stateTopic = "home/" + name + "/state";
@@ -85,7 +85,7 @@ void setup_wifi() {
     counter += 1;
     delay(500);
     Serial.print(".");
-    if (counter >= 10) {
+    if (counter >= 20) {
       Serial.println("Wifi connection is taking too long, go to sleep and try again later.");
       esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
       Serial.flush();
@@ -196,22 +196,21 @@ void sendMQTTUnitTankCapacityDiscoveryMsg() {
 }
 
 void setup() {
-  disableWiFi();
   pinMode(powerPin, OUTPUT);
   digitalWrite(powerPin, HIGH);
-  Serial.begin(9600);
+  Serial.begin(115200);
 
 
 //turn on power to ultrasonic modules via bjt
 
 
-delay(1000);
+delay(500);
 
-  mainDistance = sonar[0].ping_cm();
-  unitDistance = sonar[1].ping_cm();
+  mainDistance = sonar[0].convert_cm(sonar[0].ping_median(10));
+  delay(50);
+  unitDistance = sonar[1].convert_cm(sonar[1].ping_median(10));
 
-delay(100);
-digitalWrite(powerPin, LOW);
+
   //calculate volume
   mainVol =  (((mainDistance-mainAdjust)*10)*mainArea);
   mainCapacity = mainTotal - mainVol;
@@ -247,10 +246,6 @@ digitalWrite(powerPin, LOW);
   Serial.print(unitPercent);
   Serial.println(" %");
   
-if (abs(mainDistance - tempMainDistance) >= 1 || abs(unitDistance - tempUnitDistance) >= 1)
-  {
-    tempMainDistance = mainDistance;
-    tempUnitDistance = unitDistance;
     setup_wifi();
     client.setServer(mqtt_server, 1883);
     //client.setCallback(callback);
@@ -281,27 +276,32 @@ if (abs(mainDistance - tempMainDistance) >= 1 || abs(unitDistance - tempUnitDist
     DynamicJsonDocument doc(2048);
     char buffer[2048];
 
+    doc["main_distance"] = mainDistance;
     doc["main_tank_percent"] = mainPercent;
     doc["main_tank_capacity"] = mainCapacity;
     doc["unit_tank_percent"] = unitPercent;
     doc["unit_tank_capacity"] = unitCapacity;
+    doc["unit_distance"] = unitDistance;
 
     size_t n = serializeJson(doc, buffer);
 
     bool published = client.publish(stateTopic.c_str(), buffer, n);
+//allow 5 seconds for it to send
+delay(5000);
 
-
+digitalWrite(powerPin, LOW);
     Serial.println("Deep sleep mode");
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
     //Serial.flush();
     esp_deep_sleep_start();
-  }
+  /*}
   else {
     Serial.println("Level change insigificant, enter deep sleep mode");
+    digitalWrite(powerPin, LOW);
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
     //Serial.flush();
     esp_deep_sleep_start();
-  }
+  }*/
 
 
 
