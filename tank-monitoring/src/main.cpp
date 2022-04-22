@@ -23,6 +23,7 @@ const char* mqttPassword = "WqoXY96LZ8JYdz";
 
 //RTC_DATA_ATTR int tempMainDistance = 0;
 //RTC_DATA_ATTR int tempUnitDistance = 0;
+RTC_DATA_ATTR bool discoveryStatus = 0;
 
 String mqttName = name;
 String stateTopic = "home/" + name + "/state";
@@ -48,12 +49,12 @@ NewPing sonar[SONAR_NUM] = {   // Sensor object array.
 #define unitEchoPin 32
 
 //physical measurements
-const int mainTotal = 27000;
-const float mainArea = 10.026649;
+const int mainTotal = 27250;
+const float mainArea = 10.46347;
 
 //provide adjustment distance to full water level
-const int mainAdjust = 0;
-const int unitAdjust = 0;
+const int mainAdjust = 46;
+const int unitAdjust = 50;
 
 const int unitTotal = 22500;
 const float unitArea = 9.953820;
@@ -100,17 +101,17 @@ void disableWiFi(){
 }
 
 void sendMQTTMainTankPercentDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/main_tank_percent/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/main_percent/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_main_tank_percent";
+  doc["uniq_id"] = name + "_main_percent";
   doc["name"] = name + " Main Tank Percentage";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "%";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.main_tank_percent|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.main_percent|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -124,17 +125,17 @@ void sendMQTTMainTankPercentDiscoveryMsg() {
 }
 
 void sendMQTTMainTankCapacityDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/main_tank_capacity/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/main_capacity/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_main_tank_capacity";
+  doc["uniq_id"] = name + "_main_capacity";
   doc["name"] = name + " Main Tank Capacity";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "L";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.main_tank_capacity|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.main_capacity|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -148,17 +149,17 @@ void sendMQTTMainTankCapacityDiscoveryMsg() {
 }
 
 void sendMQTTUnitTankPercentDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/unit_tank_percent/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/unit_percent/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_unit_tank_percent";
+  doc["uniq_id"] = name + "_unit_percent";
   doc["name"] = name + " Unit Tank Percentage";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "%";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.unit_tank_percent|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.unit_percent|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -172,17 +173,17 @@ void sendMQTTUnitTankPercentDiscoveryMsg() {
 }
 
 void sendMQTTUnitTankCapacityDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/unit_tank_capacity/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/unit_capacity/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_unit_tank_capacity";
+  doc["uniq_id"] = name + "_unit_capacity";
   doc["name"] = name + " Unit Tank Capacity";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "L";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.unit_tank_capacity|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.unit_capacity|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -193,6 +194,89 @@ void sendMQTTUnitTankCapacityDiscoveryMsg() {
   size_t n = serializeJson(doc, buffer);
 
   client.publish(discoveryTopic.c_str(), buffer, n);
+}
+
+void sendMQTTMainTankDistanceDiscoveryMsg() {
+  String discoveryTopic = "homeassistant/sensor/" + name + "/main_distance/config";
+
+  DynamicJsonDocument doc(2048);
+  char buffer[2048];
+
+  doc["uniq_id"] = name + "_main_distance";
+  doc["name"] = name + " Main Tank Distance";
+  doc["stat_t"]   = stateTopic;
+  doc["unit_of_meas"] = "cm";
+  doc["frc_upd"] = true;
+  doc["val_tpl"] = "{{ value_json.main_distance|default(0) }}";
+  
+  JsonObject dev = doc.createNestedObject("dev");
+  dev["ids"] = name;
+  dev["name"] = name;
+  dev["mf"] = "Pidgeon Systems";
+  dev["sw"] = "1.0";
+
+  size_t n = serializeJson(doc, buffer);
+
+  client.publish(discoveryTopic.c_str(), buffer, n);
+}
+
+void sendMQTTUnitTankDistanceDiscoveryMsg() {
+  String discoveryTopic = "homeassistant/sensor/" + name + "/unit_distance/config";
+
+  DynamicJsonDocument doc(2048);
+  char buffer[2048];
+
+  doc["uniq_id"] = name + "_unit_distance";
+  doc["name"] = name + " Unit Tank Distance";
+  doc["stat_t"]   = stateTopic;
+  doc["unit_of_meas"] = "cm";
+  doc["frc_upd"] = true;
+  doc["val_tpl"] = "{{ value_json.unit_distance|default(0) }}";
+  
+  JsonObject dev = doc.createNestedObject("dev");
+  dev["ids"] = name;
+  dev["name"] = name;
+  dev["mf"] = "Pidgeon Systems";
+  dev["sw"] = "1.0";
+
+  size_t n = serializeJson(doc, buffer);
+
+  client.publish(discoveryTopic.c_str(), buffer, n);
+}
+
+void setupMQTT() {
+    client.setServer(mqtt_server, 1883);
+    //client.setCallback(callback);
+    client.setBufferSize(512);
+
+    while (!client.connected())
+    {
+      Serial.print("Attempting MQTT connection...");
+      // Attempt to connect
+      if (client.connect(mqttName.c_str(), mqttUser, mqttPassword))
+      {
+        Serial.println("connected");
+        if (discoveryStatus != 1) {
+        sendMQTTMainTankPercentDiscoveryMsg();
+        sendMQTTMainTankCapacityDiscoveryMsg();
+        sendMQTTUnitTankPercentDiscoveryMsg();
+        sendMQTTUnitTankCapacityDiscoveryMsg();
+        sendMQTTMainTankDistanceDiscoveryMsg();
+        sendMQTTUnitTankDistanceDiscoveryMsg();
+        discoveryStatus = 1;
+        }
+      }
+      else
+      {
+        Serial.print("failed, rc=");
+        Serial.print(client.state());
+        Serial.println(" try again in 5 seconds");
+        // Wait 5 seconds before retrying
+        discoveryStatus = 0;
+        delay(5000);
+        
+      }
+    }
 }
 
 void setup() {
@@ -247,40 +331,16 @@ delay(500);
   Serial.println(" %");
   
     setup_wifi();
-    client.setServer(mqtt_server, 1883);
-    //client.setCallback(callback);
-    client.setBufferSize(512);
-
-    while (!client.connected())
-    {
-      Serial.print("Attempting MQTT connection...");
-      // Attempt to connect
-      if (client.connect(mqttName.c_str(), mqttUser, mqttPassword))
-      {
-        Serial.println("connected");
-        sendMQTTMainTankPercentDiscoveryMsg();
-        sendMQTTMainTankCapacityDiscoveryMsg();
-        sendMQTTUnitTankPercentDiscoveryMsg();
-        sendMQTTUnitTankCapacityDiscoveryMsg();
-      }
-      else
-      {
-        Serial.print("failed, rc=");
-        Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
-        // Wait 5 seconds before retrying
-        delay(5000);
-      }
-    }
+    setupMQTT();
 
     DynamicJsonDocument doc(2048);
     char buffer[2048];
 
     doc["main_distance"] = mainDistance;
-    doc["main_tank_percent"] = mainPercent;
-    doc["main_tank_capacity"] = mainCapacity;
-    doc["unit_tank_percent"] = unitPercent;
-    doc["unit_tank_capacity"] = unitCapacity;
+    doc["main_percent"] = mainPercent;
+    doc["main_capacity"] = mainCapacity;
+    doc["unit_percent"] = unitPercent;
+    doc["unit_capacity"] = unitCapacity;
     doc["unit_distance"] = unitDistance;
 
     size_t n = serializeJson(doc, buffer);
@@ -292,17 +352,8 @@ delay(5000);
 digitalWrite(powerPin, LOW);
     Serial.println("Deep sleep mode");
     esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-    //Serial.flush();
+    Serial.flush();
     esp_deep_sleep_start();
-  /*}
-  else {
-    Serial.println("Level change insigificant, enter deep sleep mode");
-    digitalWrite(powerPin, LOW);
-    esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR);
-    //Serial.flush();
-    esp_deep_sleep_start();
-  }*/
-
 
 
 }
