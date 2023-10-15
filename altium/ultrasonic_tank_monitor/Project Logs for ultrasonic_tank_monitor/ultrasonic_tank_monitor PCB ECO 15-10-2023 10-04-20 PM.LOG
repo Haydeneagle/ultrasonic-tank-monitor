@@ -1,0 +1,10 @@
+Added Component: Designator=BT1(BATTERY-SMD_18650-1S-L77.1-W20.7-1)
+Add component (AddParameter): Name = "Contributor"; Value = "lcsc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "JLCPCB Part Class"; Value = "Extended Part"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "MYOUNG(??)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part"; Value = "BH-18650-B1BA002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spicePre"; Value = "B"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spiceSymbolName"; Value = "BH-18650-B1BA002"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LCSC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part"; Value = "C2988620"; VariantName = "[No Variations]"
+Added Member To Class: ClassName=ultrasonic_tank_monitor Member=Component BT1 BH-18650-B1BA002
