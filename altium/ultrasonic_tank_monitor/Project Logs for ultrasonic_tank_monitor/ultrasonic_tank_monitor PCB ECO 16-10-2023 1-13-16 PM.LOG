@@ -1,0 +1,50 @@
+Removed Pin From Net: NetName=GND Pin=J1-A1
+Removed Pin From Net: NetName=VBUS Pin=J1-A4
+Removed Pin From Net: NetName=CC1 Pin=J1-A5
+Removed Pin From Net: NetName=USB_D+ Pin=J1-A6
+Removed Pin From Net: NetName=USB_D+ Pin=J1-A7
+Removed Pin From Net: NetName=VBUS Pin=J1-A9
+Removed Pin From Net: NetName=GND Pin=J1-A12
+Removed Pin From Net: NetName=GND Pin=J1-B1
+Removed Pin From Net: NetName=VBUS Pin=J1-B4
+Removed Pin From Net: NetName=CC2 Pin=J1-B5
+Removed Pin From Net: NetName=USB_D+ Pin=J1-B6
+Removed Pin From Net: NetName=USB_D- Pin=J1-B7
+Removed Pin From Net: NetName=VBUS Pin=J1-B9
+Removed Pin From Net: NetName=GND Pin=J1-B12
+Removed Pin From Net: NetName=CC1 Pin=R2-2
+Removed Pin From Net: NetName=CC2 Pin=R3-2
+Change Component Footprint: Designator=J1 Old Footprint=TYPE-C-SMD_C9900025773 New Footprint=HDR-TH_4P-P2.54-V-M
+Change Component Comment : Designator=J1 Old Comment=UJ31-CH-31-SMT-TR New Comment=HDR-TH_4P-P2.54
+Change component parameters: Designator = "J1" ("J1"); Footprint = "TYPE-C-SMD_C9900025773"; UniqueID = "\LRSBPPSF" ("\LRSBPPSF")
+Added Component: Designator=U1(TYPE-C-TH_16PLC-H10.0)
+Add component (AddParameter): Name = "Contributor"; Value = "lcsc"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "JLCPCB Part Class"; Value = "Extended Part"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "SHOU HAN(??)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part"; Value = "TYPE-C 16PLC-H10.0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spicePre"; Value = "U"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spiceSymbolName"; Value = "TYPE-C 16PLC-H10.0"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LCSC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part"; Value = "C3151747"; VariantName = "[No Variations]"
+Added Pin To Net: NetName=3V3 Pin=J1-1
+Added Pin To Net: NetName=IO5 Pin=J1-2
+Added Pin To Net: NetName=IO4 Pin=J1-3
+Added Pin To Net: NetName=GND Pin=J1-4
+Added Pin To Net: NetName=CC2 Pin=R2-2
+Added Pin To Net: NetName=CC1 Pin=R3-2
+Added Pin To Net: NetName=GND Pin=U1-A1
+Added Pin To Net: NetName=VBUS Pin=U1-A4
+Added Pin To Net: NetName=CC1 Pin=U1-A5
+Added Pin To Net: NetName=USB_D- Pin=U1-A6
+Added Pin To Net: NetName=USB_D+ Pin=U1-A7
+Added Pin To Net: NetName=VBUS Pin=U1-A9
+Added Pin To Net: NetName=GND Pin=U1-A12
+Added Pin To Net: NetName=GND Pin=U1-B1
+Added Pin To Net: NetName=VBUS Pin=U1-B4
+Added Pin To Net: NetName=CC2 Pin=U1-B5
+Added Pin To Net: NetName=USB_D- Pin=U1-B6
+Added Pin To Net: NetName=USB_D+ Pin=U1-B7
+Added Pin To Net: NetName=VBUS Pin=U1-B9
+Added Pin To Net: NetName=GND Pin=U1-B12
+Added Member To Class: ClassName=ultrasonic_tank_monitor Member=Component U1 ESP32-C3
+Added Room: Name=ultrasonic_tank_monitor

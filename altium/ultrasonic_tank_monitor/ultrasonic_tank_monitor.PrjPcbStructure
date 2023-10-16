@@ -1,1 +1,3 @@
 Record=TopLevelDocument|FileName=ultrasonic_tank_monitor.SchDoc|SheetNumber=1
+Record=NoMainPathDocument|SourceDocument=ultrasonic_tank_monitor.SchDoc|FileName=ultrasonic_tank_monitor_battery.SchDoc|SheetNumber=3
+Record=NoMainPathDocument|SourceDocument=ultrasonic_tank_monitor.SchDoc|FileName=ultrasonic_tank_monitor_power.SchDoc|SheetNumber=2
