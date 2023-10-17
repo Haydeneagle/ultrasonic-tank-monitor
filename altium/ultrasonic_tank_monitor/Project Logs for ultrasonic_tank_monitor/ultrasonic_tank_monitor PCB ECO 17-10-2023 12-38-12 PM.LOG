@@ -1,0 +1,20 @@
+Added Component: Designator=J6(HDR-TH_8P-P2.54-V-M)
+Added Component: Designator=J7(HDR-TH_8P-P2.54-V-M)
+Added Pin To Net: NetName=3V3 Pin=J6-1
+Added Pin To Net: NetName=RST/EN Pin=J6-2
+Added Pin To Net: NetName=IO4 Pin=J6-3
+Added Pin To Net: NetName=IO5 Pin=J6-4
+Added Pin To Net: NetName=IO6 Pin=J6-5
+Added Pin To Net: NetName=IO7 Pin=J6-6
+Added Pin To Net: NetName=IO8 Pin=J6-7
+Added Pin To Net: NetName=BOOT Pin=J6-8
+Added Pin To Net: NetName=GND Pin=J7-1
+Added Pin To Net: NetName=SDA Pin=J7-2
+Added Pin To Net: NetName=SCL Pin=J7-3
+Added Pin To Net: NetName=IO2 Pin=J7-4
+Added Pin To Net: NetName=IO3 Pin=J7-5
+Added Pin To Net: NetName=IO10 Pin=J7-6
+Added Pin To Net: NetName=VBAT Pin=J7-7
+Added Pin To Net: NetName=GND Pin=J7-8
+Added Member To Class: ClassName=ultrasonic_tank_monitor Member=Component J6 HDR-TH_8P-P2.54
+Added Member To Class: ClassName=ultrasonic_tank_monitor Member=Component J7 HDR-TH_8P-P2.54

@@ -1,0 +1,21 @@
+Add Pin To Net: Unknown Pin: Pin J6-1
+Add Pin To Net: Unknown Pin: Pin J6-2
+Add Pin To Net: Unknown Pin: Pin J6-3
+Add Pin To Net: Unknown Pin: Pin J6-4
+Add Pin To Net: Unknown Pin: Pin J6-5
+Add Pin To Net: Unknown Pin: Pin J6-6
+Add Pin To Net: Unknown Pin: Pin J6-7
+Add Pin To Net: Unknown Pin: Pin J6-8
+Add Pin To Net: Unknown Pin: Pin J7-1
+Add Pin To Net: Unknown Pin: Pin J7-2
+Add Pin To Net: Unknown Pin: Pin J7-3
+Add Pin To Net: Unknown Pin: Pin J7-4
+Add Pin To Net: Unknown Pin: Pin J7-5
+Add Pin To Net: Unknown Pin: Pin J7-6
+Add Pin To Net: Unknown Pin: Pin J7-7
+Add Pin To Net: Unknown Pin: Pin J7-8
+Change Net Name : Old Net Name=Net*_4 New Net Name=CHGR_IN
+Change Net Name : Old Net Name=Net*_6 New Net Name=STDBY
+Change Net Name : Old Net Name=Net*_7 New Net Name=CHRG
+Add Class Member: Failed to add class member : Component J6 HDR-TH_8P-P2.54
+Add Class Member: Failed to add class member : Component J7 HDR-TH_8P-P2.54
