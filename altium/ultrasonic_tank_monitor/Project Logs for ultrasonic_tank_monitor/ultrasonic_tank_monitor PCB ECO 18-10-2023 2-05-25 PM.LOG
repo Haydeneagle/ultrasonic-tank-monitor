@@ -1,0 +1,6 @@
+Removed Pin From Net: NetName=3V3_SWITCHED Pin=R20-2
+Removed Member From Class: ClassName=ultrasonic_tank_monitor Member=R20
+Change Component Designator: OldDesignator=BOOT NewDesignator=SW1
+Change Component Designator: OldDesignator=RST NewDesignator=SW2
+Added Pin To Net: NetName=3V3 Pin=J8-1
+Added Pin To Net: NetName=3V3 Pin=R19-1

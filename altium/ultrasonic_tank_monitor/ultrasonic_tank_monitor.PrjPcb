@@ -149,6 +149,10 @@ DItemRevisionGUID=
 GenerateClassCluster=0
 DocumentUniqueId=NJLGYZVT
 
+[GeneratedDocument1]
+DocumentPath=Project Outputs for ultrasonic_tank_monitor\Design Rule Check - ultrasonic_tank_monitor.html
+DItemRevisionGUID=
+
 [Configuration1]
 Name=Sources
 ParameterCount=0
