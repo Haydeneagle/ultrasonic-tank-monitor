@@ -1,0 +1,13 @@
+Output: NC Drill Files
+Type  : NC Drill
+From  : PCB Document [ultrasonic_tank_monitor.PcbDoc]
+   Generated File[ultrasonic_tank_monitor-RoundHoles.TXT]
+   Generated File[ultrasonic_tank_monitor-SlotHoles.TXT]
+   Generated File[ultrasonic_tank_monitor.LDP]
+   Generated File[ultrasonic_tank_monitor.DRR]
+
+
+Files Generated   : 4
+Documents Printed : 0
+
+Finished Output Generation At 8:37:05 AM On 19/10/2023
