@@ -25,14 +25,17 @@ RTC_DATA_ATTR int bootCount = 0; // set boot count so we know not to transmit on
 
 //set wifi parameters and create instances, credentials stores in secret.h
 WiFiClient wifiClient;
+
 PubSubClient client(wifiClient);
 long lastMsg = 0;
 char msg[50];
 int value = 0;
 
 //create variables for both trig and echo
-#define trigPin 22
-#define echoPin 21
+#define periphPower 3 //pin must be set to high to switch 3v3 to peripherials
+#define trigPin 5
+#define echoPin 4
+#define ledPin 10
 
 //declare object of sonar
 NewPing sonar[SONAR_NUM] = {   // Sensor object array.
@@ -50,7 +53,7 @@ AsyncWebServer server(80); //for ota updates
 
 void startOTA(){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", "Hi! This is ElegantOTA AsyncDemo.");
+    request->send(200, "text/plain", "Hi! This is ElegantOTA AsyncDemo. test");
   });
 
   ElegantOTA.begin(&server);
@@ -225,7 +228,9 @@ void sendData(){
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
+  digitalWrite(periphPower, HIGH); //turn on for data then low after sensing
   tankDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  digitalWrite(periphPower, LOW);
 
   //calculate volume
   tankVol =  (((tankDistance-tankAdjust)*10)*tankArea);
@@ -252,6 +257,37 @@ void sendData(){
   bool published = client.publish(stateTopic.c_str(), buffer, n);
 }
 
+void callback(char* topic, byte* message, unsigned int length) {
+  Serial.print("Message arrived on topic: ");
+  Serial.print(topic);
+  Serial.print(". Message: ");
+  String messageTemp;
+  
+  for (int i = 0; i < length; i++) {
+    Serial.print((char)message[i]);
+    messageTemp += (char)message[i];
+  }
+  Serial.println();
+
+  // Feel free to add more if statements to control more GPIOs with MQTT
+
+  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
+  // Changes the output state according to the message
+  if (String(topic) == "esp32/ota") {
+    Serial.print("Changing output to ");
+    if(messageTemp == "on"){
+      Serial.println("OTA mode on");
+      digitalWrite(ledPin, HIGH); //led on for debugging, remove once working
+      deepSleepDisable = 1;
+    }
+    else if(messageTemp == "off"){
+      Serial.println("OTA mode off");
+      digitalWrite(ledPin, LOW);
+      deepSleepDisable = 0;
+    }
+  }
+}
+
 void setup() {
   //pinMode(powerPin, OUTPUT);
   //digitalWrite(powerPin, HIGH);
@@ -261,8 +297,23 @@ void setup() {
   Serial.println("Configuring WiFi");
   setupWifi();
 
-  Serial.println("Starting OTA");
-  startOTA();
+  Serial.println("Configuring MQTT");
+  setupMQTT();
+
+  if deepSleepDisable == 1 {
+    Serial.println("Starting OTA");
+    startOTA();
+  }
+  else {
+    sendMQTTPercentDiscoveryMsg();
+    sendMQTTCapacityDiscoveryMsg();
+    sendMQTTDistanceDiscoveryMsg();
+
+    sendData();
+    delay(1000);  //allow some time for data to transmit before jumping into deep sleep
+    deepSleep();
+  }
+  
   /*
   if (bootCount == 0) { //manual reset or reload, dont transmit rain count
     Serial.println("Initial boot, connecting to wifi (to check for saved STA), mqtt and send discovery  then going straight to sleep");
