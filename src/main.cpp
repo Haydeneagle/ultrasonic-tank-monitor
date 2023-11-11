@@ -1,47 +1,29 @@
 
-#ifdef ESP32
-#include <WiFi.h>             // WIFI for ESP32
-#include <WiFiManager.h>
-#else
-#include <ESP8266WiFi.h>      // WIFI for ESP8266
-#include <WiFiClient.h>
-#include <WiFiManager.h>
+/*
+this is the file 
+*/
+#if defined(ESP8266) // for esp8266 libs
+  #include <ESP8266WiFi.h>
+  #include <ESPAsyncTCP.h>
+  #include <WiFiClient.h>
+  #include <WiFiManager.h>
+#elif defined(ESP32) // for esp32 libs
+  #include <WiFi.h>
+  #include <WiFiManager.h>
+  #include <AsyncTCP.h>
 #endif
 
+#include <ESPAsyncWebServer.h>
+#include <ElegantOTA.h>
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <NewPing.h>  //for sonar modules
-
-
-#define uS_TO_S_FACTOR 1000000  /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  600        /* Time ESP32 will go to sleep (in seconds) */
-
-
-#define SONAR_NUM 1      // Number of sensors.
-#define MAX_DISTANCE 350 // Maximum distance (in cm) to ping.
+#include <config.h>
+#include <secret.h>
 
 RTC_DATA_ATTR int bootCount = 0; // set boot count so we know not to transmit on initial load
 
-//function to generate chipId
-uint32_t chipId = 0;
-uint32_t getChipId(){
-  for(int i=0; i<17; i=i+8) {
-  chipId = ((ESP.getEfuseMac() >> (40 - i)) & 0xff) << i;
-  } 
-  return chipId;
-}
-
-//declare mqtt info and set ID
-const String name = "tank_monitor";
-const String id = name + "_" + String(getChipId(), HEX);
-String stateTopic = "home/" + id + "/state";
-const char* mqtt_server = "10.0.0.23";
-const char* mqttUser = "env";
-const char* mqttPassword = "WqoXY96LZ8JYdz";
-
-//set wifi parameters and create instances
-const char* ssid = "EagleNetwork";
-const char* password = "whiskas3136";
+//set wifi parameters and create instances, credentials stores in secret.h
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 long lastMsg = 0;
@@ -57,28 +39,24 @@ NewPing sonar[SONAR_NUM] = {   // Sensor object array.
   NewPing(22, 21, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
 };
 
-//physical measurements
-const int mainTotal = 27250;
-const float mainArea = 10.46347;
-
-//provide adjustment distance to full water level
-const int mainAdjust = 46;
-const int unitAdjust = 50;
-
-const int unitTotal = 22500;
-const float unitArea = 9.953820;
-
 //create dynamic variables
+int tankDistance;
+int tankVol;
+int tankCapacity;
+float tankPercent;
 
-int mainDistance;
-int mainVol;
-int mainCapacity;
-float mainPercent;
+AsyncWebServer server(80); //for ota updates
 
-int unitDistance;
-int unitVol;
-int unitCapacity;
-float unitPercent;
+
+void startOTA(){
+  server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
+    request->send(200, "text/plain", "Hi! This is ElegantOTA AsyncDemo.");
+  });
+
+  ElegantOTA.begin(&server);
+  server.begin();
+  Serial.println("HTTP server started");
+}
 
 void printWakeupReason(){
   esp_sleep_wakeup_cause_t wakeupReason;
@@ -115,7 +93,7 @@ void deepSleep() {
 }
 
 // Wifi Manager
-void connectToWifi() {
+void setupWifi() {
   Serial.println("Connecting to WiFi");
   WiFiManager wifiManager;
 
@@ -139,17 +117,17 @@ void disableWiFi(){
 }
 
 void sendMQTTPercentDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/main_percent/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_percent/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_main_percent";
-  doc["name"] = name + " Main Tank Percentage";
+  doc["uniq_id"] = name + "_tank_percent";
+  doc["name"] = name + " tank Tank Percentage";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "%";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.main_percent|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.tank_percent|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -163,17 +141,17 @@ void sendMQTTPercentDiscoveryMsg() {
 }
 
 void sendMQTTCapacityDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/main_capacity/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_capacity/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_main_capacity";
-  doc["name"] = name + " Main Tank Capacity";
+  doc["uniq_id"] = name + "_tank_capacity";
+  doc["name"] = name + " tank Tank Capacity";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "L";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.main_capacity|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.tank_capacity|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -187,17 +165,17 @@ void sendMQTTCapacityDiscoveryMsg() {
 }
 
 void sendMQTTDistanceDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/main_distance/config";
+  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_distance/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_main_distance";
-  doc["name"] = name + " Main Tank Distance";
+  doc["uniq_id"] = name + "_tank_distance";
+  doc["name"] = name + " tank Tank Distance";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "cm";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.main_distance|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.tank_distance|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -247,28 +225,28 @@ void sendData(){
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  mainDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  tankDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
 
   //calculate volume
-  mainVol =  (((mainDistance-mainAdjust)*10)*mainArea);
-  mainCapacity = mainTotal - mainVol;
-  mainPercent = ((float)mainCapacity/(float)mainTotal)*100;
+  tankVol =  (((tankDistance-tankAdjust)*10)*tankArea);
+  tankCapacity = tankTotal - tankVol;
+  tankPercent = ((float)tankCapacity/(float)tankTotal)*100;
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
-  Serial.print("Main tank Distance = ");
-  Serial.print(mainDistance);
+  Serial.print("tank tank Distance = ");
+  Serial.print(tankDistance);
   Serial.println(" cm");
 
-  Serial.print("Main Litres = ");
-  Serial.print(mainCapacity);
+  Serial.print("tank Litres = ");
+  Serial.print(tankCapacity);
   Serial.print(" litres, aka ");
-  Serial.print(mainPercent);
+  Serial.print(tankPercent);
   Serial.println(" %");
 
 
-  doc["main_distance"] = mainDistance;
-  doc["main_percent"] = mainPercent;
-  doc["main_capacity"] = mainCapacity;
+  doc["tank_distance"] = tankDistance;
+  doc["tank_percent"] = tankPercent;
+  doc["tank_capacity"] = tankCapacity;
   size_t n = serializeJson(doc, buffer);
 
   bool published = client.publish(stateTopic.c_str(), buffer, n);
@@ -280,10 +258,17 @@ void setup() {
   delay(500);
   Serial.begin(115200);
 
+  Serial.println("Configuring WiFi");
+  setupWifi();
+
+  Serial.println("Starting OTA");
+  startOTA();
+  /*
   if (bootCount == 0) { //manual reset or reload, dont transmit rain count
     Serial.println("Initial boot, connecting to wifi (to check for saved STA), mqtt and send discovery  then going straight to sleep");
     Serial.println("Configuring WiFi");
-    connectToWifi();
+    setupWifi();
+    
     setupMQTT();
     sendMQTTPercentDiscoveryMsg();
     sendMQTTCapacityDiscoveryMsg();
@@ -295,13 +280,15 @@ void setup() {
   ++bootCount;
   Serial.println("Boot number: " + String(bootCount));
   printWakeupReason();
-  connectToWifi();
+  setupWifi();
   setupMQTT();
   sendData();
 
   delay(1000);  //allow some time for data to transmit before jumping into deep sleep
   deepSleep();
+  */
 }
 
 void loop() {
+  ElegantOTA.loop();
 }

@@ -171,146 +171,78 @@ DocumentPath=Project Outputs for ultrasonic_tank_monitor\Design Rule Check - ult
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Gerbers\Generate Files\NC Drill\ultrasonic_tank_monitor-RoundHoles.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument3]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-RoundHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument4]
-DocumentPath=Gerbers\Generate Files\NC Drill\ultrasonic_tank_monitor-SlotHoles.TXT
-DItemRevisionGUID=
-
-[GeneratedDocument5]
+[GeneratedDocument3]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-SlotHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument6]
-DocumentPath=Gerbers\Generate Files\NC Drill\ultrasonic_tank_monitor.DRR
-DItemRevisionGUID=
-
-[GeneratedDocument7]
+[GeneratedDocument4]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.DRR
 DItemRevisionGUID=
 
-[GeneratedDocument8]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.EXTREP
-DItemRevisionGUID=
-
-[GeneratedDocument9]
+[GeneratedDocument5]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.EXTREP
 DItemRevisionGUID=
 
-[GeneratedDocument10]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GBL
-DItemRevisionGUID=
-
-[GeneratedDocument11]
+[GeneratedDocument6]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBL
 DItemRevisionGUID=
 
-[GeneratedDocument12]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GBS
-DItemRevisionGUID=
-
-[GeneratedDocument13]
+[GeneratedDocument7]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBS
 DItemRevisionGUID=
 
-[GeneratedDocument14]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GM1
-DItemRevisionGUID=
-
-[GeneratedDocument15]
+[GeneratedDocument8]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM1
 DItemRevisionGUID=
 
-[GeneratedDocument16]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GM2
-DItemRevisionGUID=
-
-[GeneratedDocument17]
+[GeneratedDocument9]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM2
 DItemRevisionGUID=
 
-[GeneratedDocument18]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GM13
-DItemRevisionGUID=
-
-[GeneratedDocument19]
+[GeneratedDocument10]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM13
 DItemRevisionGUID=
 
-[GeneratedDocument20]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GM15
-DItemRevisionGUID=
-
-[GeneratedDocument21]
+[GeneratedDocument11]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM15
 DItemRevisionGUID=
 
-[GeneratedDocument22]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GPB
-DItemRevisionGUID=
-
-[GeneratedDocument23]
+[GeneratedDocument12]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPB
 DItemRevisionGUID=
 
-[GeneratedDocument24]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GPT
-DItemRevisionGUID=
-
-[GeneratedDocument25]
+[GeneratedDocument13]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPT
 DItemRevisionGUID=
 
-[GeneratedDocument26]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GTL
-DItemRevisionGUID=
-
-[GeneratedDocument27]
+[GeneratedDocument14]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTL
 DItemRevisionGUID=
 
-[GeneratedDocument28]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GTO
-DItemRevisionGUID=
-
-[GeneratedDocument29]
+[GeneratedDocument15]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTO
 DItemRevisionGUID=
 
-[GeneratedDocument30]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GTP
-DItemRevisionGUID=
-
-[GeneratedDocument31]
+[GeneratedDocument16]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTP
 DItemRevisionGUID=
 
-[GeneratedDocument32]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.GTS
-DItemRevisionGUID=
-
-[GeneratedDocument33]
+[GeneratedDocument17]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTS
 DItemRevisionGUID=
 
-[GeneratedDocument34]
+[GeneratedDocument18]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.LDP
 DItemRevisionGUID=
 
-[GeneratedDocument35]
+[GeneratedDocument19]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.REP
 DItemRevisionGUID=
 
-[GeneratedDocument36]
-DocumentPath=Gerbers\Generate Files\Gerber\ultrasonic_tank_monitor.RUL
-DItemRevisionGUID=
-
-[GeneratedDocument37]
+[GeneratedDocument20]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.RUL
 DItemRevisionGUID=
 
