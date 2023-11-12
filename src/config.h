@@ -4,7 +4,7 @@ Config file for board including user changable variables
 
 
 #define uS_TO_S_FACTOR 1000000  /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  600        /* Time ESP32 will go to sleep (in seconds) */
+#define TIME_TO_SLEEP  5        /* Time ESP32 will go to sleep (in seconds) */
 
 #define SONAR_NUM 1      // Number of sensors.
 #define MAX_DISTANCE 350 // Maximum distance (in cm) to ping.

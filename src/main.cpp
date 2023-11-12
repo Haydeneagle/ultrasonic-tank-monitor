@@ -39,7 +39,7 @@ int value = 0;
 
 //declare object of sonar
 NewPing sonar[SONAR_NUM] = {   // Sensor object array.
-  NewPing(22, 21, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
+  NewPing(trigPin, echoPin, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
 };
 
 //create dynamic variables
@@ -47,6 +47,8 @@ int tankDistance;
 int tankVol;
 int tankCapacity;
 float tankPercent;
+
+bool deepSleepDisable = 0;
 
 AsyncWebServer server(80); //for ota updates
 
@@ -191,72 +193,6 @@ void sendMQTTDistanceDiscoveryMsg() {
   client.publish(discoveryTopic.c_str(), buffer, n);
 }
 
-void setupMQTT() {
-  Serial.println("Configuring MQTT....");
-  client.setServer(mqtt_server, 1883);
-    //client.setCallback(callback);
-    client.setBufferSize(512);
-    
-    int counter = 0;
-    while (!client.connected())
-    {
-      Serial.print("Attempting MQTT connection...");
-
-      // Attempt to connect to mqtt
-      if (client.connect(name.c_str(), mqttUser, mqttPassword))
-      {
-        Serial.println("connected");
-      }      
-      else if (counter < 5) // delay and try again
-      {
-        counter += 1;    
-        Serial.print("failed, rc=");
-        Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
-        // Wait 2 seconds before retrying
-        delay(2000);
-      }
-      else // go to sleep, taking longer than 10 sec
-      {
-        Serial.println("MQTT connection is taking too long, go to sleep and try again later.");
-        deepSleep();
-      }
-    }
-}
-
-void sendData(){
-  DynamicJsonDocument doc(2048);
-  char buffer[2048];
-
-  digitalWrite(periphPower, HIGH); //turn on for data then low after sensing
-  tankDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
-  digitalWrite(periphPower, LOW);
-
-  //calculate volume
-  tankVol =  (((tankDistance-tankAdjust)*10)*tankArea);
-  tankCapacity = tankTotal - tankVol;
-  tankPercent = ((float)tankCapacity/(float)tankTotal)*100;
-
-  // Print the distance on the Serial Monitor (Ctrl+Shift+M):
-  Serial.print("tank tank Distance = ");
-  Serial.print(tankDistance);
-  Serial.println(" cm");
-
-  Serial.print("tank Litres = ");
-  Serial.print(tankCapacity);
-  Serial.print(" litres, aka ");
-  Serial.print(tankPercent);
-  Serial.println(" %");
-
-
-  doc["tank_distance"] = tankDistance;
-  doc["tank_percent"] = tankPercent;
-  doc["tank_capacity"] = tankCapacity;
-  size_t n = serializeJson(doc, buffer);
-
-  bool published = client.publish(stateTopic.c_str(), buffer, n);
-}
-
 void callback(char* topic, byte* message, unsigned int length) {
   Serial.print("Message arrived on topic: ");
   Serial.print(topic);
@@ -288,30 +224,111 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
 }
 
-void setup() {
-  //pinMode(powerPin, OUTPUT);
-  //digitalWrite(powerPin, HIGH);
-  delay(500);
-  Serial.begin(115200);
+void setupMQTT() {
+  Serial.println("Configuring MQTT....");
+  client.setServer(mqtt_server, 1883);
+  client.setCallback(callback);
+    //client.setCallback(callback);
+    client.setBufferSize(512);
+    
+    int counter = 0;
+    while (!client.connected())
+    {
+      Serial.print("Attempting MQTT connection...");
 
+      // Attempt to connect to mqtt
+      if (client.connect(name.c_str(), mqttUser, mqttPassword))
+      {
+        Serial.println("connected");
+        client.subscribe("esp32/ota");
+      }      
+      else if (counter < 5) // delay and try again
+      {
+        counter += 1;    
+        Serial.print("failed, rc=");
+        Serial.print(client.state());
+        Serial.println(" try again in 5 seconds");
+        // Wait 2 seconds before retrying
+        delay(2000);
+      }
+      else // go to sleep, taking longer than 10 sec
+      {
+        Serial.println("MQTT connection is taking too long, go to sleep and try again later.");
+        deepSleep();
+      }
+    }
+}
+
+void sendData(){
+  DynamicJsonDocument doc(2048);
+  char buffer[2048];
+
+  digitalWrite(periphPower, HIGH); //turn on for data then low after sensing
+  delay(100); //allow time for power up
+  tankDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  digitalWrite(periphPower, LOW);
+
+  //calculate volume
+  tankVol =  (((tankDistance-tankAdjust)*10)*tankArea);
+  tankCapacity = tankTotal - tankVol;
+  tankPercent = ((float)tankCapacity/(float)tankTotal)*100;
+
+  // Print the distance on the Serial Monitor (Ctrl+Shift+M):
+  Serial.print("tank tank Distance = ");
+  Serial.print(tankDistance);
+  Serial.println(" cm");
+
+  Serial.print("tank Litres = ");
+  Serial.print(tankCapacity);
+  Serial.print(" litres, aka ");
+  Serial.print(tankPercent);
+  Serial.println(" %");
+
+
+  doc["tank_distance"] = tankDistance;
+  doc["tank_percent"] = tankPercent;
+  doc["tank_capacity"] = tankCapacity;
+  size_t n = serializeJson(doc, buffer);
+
+  bool published = client.publish(stateTopic.c_str(), buffer, n);
+}
+
+
+void flashLED() {
+  
+  digitalWrite(ledPin, HIGH); //led on for debugging, remove once working
+  delay(200);
+  digitalWrite(ledPin, LOW);
+}
+
+void setup() {
+  Serial.begin(115200);
+  pinMode(ledPin, OUTPUT);
   Serial.println("Configuring WiFi");
   setupWifi();
+  flashLED();
 
   Serial.println("Configuring MQTT");
   setupMQTT();
 
-  if deepSleepDisable == 1 {
+  for (int i = 0; i < 10; i++) {
+    client.loop();
+    delay(100);
+  }
+  if (deepSleepDisable == 1) {
+    Serial.println("deepsleepdisable == 1");
     Serial.println("Starting OTA");
     startOTA();
   }
   else {
-    sendMQTTPercentDiscoveryMsg();
-    sendMQTTCapacityDiscoveryMsg();
-    sendMQTTDistanceDiscoveryMsg();
+    Serial.println("deepsleepdisable == 0");
+    //sendMQTTPercentDiscoveryMsg();
+    //sendMQTTCapacityDiscoveryMsg();
+    //sendMQTTDistanceDiscoveryMsg();
 
-    sendData();
+    //sendData();
     delay(1000);  //allow some time for data to transmit before jumping into deep sleep
-    deepSleep();
+    //deepSleep();
   }
   
   /*
