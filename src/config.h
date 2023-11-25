@@ -21,7 +21,10 @@ uint32_t getChipId(){
 //name, id and mqtt state topic
 const String name = "tank_monitor";
 const String id = name + "_" + String(getChipId(), HEX);
-String stateTopic = "home/" + id + "/state";
+const String topic = "home/tank_monitor/" + id;
+const String otaTopic = topic + "/ota";
+const String stateTopic = topic + "/state";
+const String discTopic = "homeassistant/sensor/" + topic;
 const char* mqtt_server = "10.0.0.23";
 
 
@@ -30,4 +33,4 @@ const int tankTotal = 27250;
 const float tankArea = 10.46347;
 
 //provide adjustment distance to full water level - MEASURE AFTER INSTALLATION
-const int tankAdjust = 46;
+const int tankAdjust = 0;

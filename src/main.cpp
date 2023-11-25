@@ -43,10 +43,10 @@ NewPing sonar[SONAR_NUM] = {   // Sensor object array.
 };
 
 //create dynamic variables
-int tankDistance;
+int distance;
 int tankVol;
-int tankCapacity;
-float tankPercent;
+int capacity;
+float percent;
 
 bool deepSleepDisable = 0;
 
@@ -80,11 +80,9 @@ void printWakeupReason(){
 }
 
 void deepSleep() {
-    // use this to wake for troubleshooting
-    //esp_sleep_enable_ext0_wakeup(GPIO_NUM_4,1); //if wake gpio goes high, exit
-
     Serial.println("entering Deep sleep mode");
     Serial.flush();
+
     client.disconnect(); //disconnect from broker, flush wifi before sleep
     wifiClient.flush();
 
@@ -116,26 +114,21 @@ void setupWifi() {
 
 }
 
-void disableWiFi(){
-    WiFi.disconnect(true);  // Disconnect from the network
-    WiFi.mode(WIFI_OFF);    // Switch WiFi off
-}
-
 void sendMQTTPercentDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_percent/config";
+  String discoveryTopic = discTopic + "/percent/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_tank_percent";
-  doc["name"] = name + " tank Tank Percentage";
+  doc["uniq_id"] = id + "_percent";
+  doc["name"] = id + " Tank Percentage";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "%";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.tank_percent|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.percent|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
-  dev["ids"] = name;
+  dev["ids"] = id;
   dev["name"] = name;
   dev["mf"] = "Pidgeon Systems";
   dev["sw"] = "1.0";
@@ -146,17 +139,17 @@ void sendMQTTPercentDiscoveryMsg() {
 }
 
 void sendMQTTCapacityDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_capacity/config";
+  String discoveryTopic = discTopic + "/capacity/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_tank_capacity";
-  doc["name"] = name + " tank Tank Capacity";
+  doc["uniq_id"] = id + "_capacity";
+  doc["name"] = id + " Tank Capacity";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "L";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.tank_capacity|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.capacity|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
   dev["ids"] = name;
@@ -170,20 +163,20 @@ void sendMQTTCapacityDiscoveryMsg() {
 }
 
 void sendMQTTDistanceDiscoveryMsg() {
-  String discoveryTopic = "homeassistant/sensor/" + name + "/tank_distance/config";
+  String discoveryTopic = discTopic + "/distance/config";
 
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
-  doc["uniq_id"] = name + "_tank_distance";
-  doc["name"] = name + " tank Tank Distance";
+  doc["uniq_id"] = id + "_distance";
+  doc["name"] = id + " Tank Distance";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "cm";
   doc["frc_upd"] = true;
-  doc["val_tpl"] = "{{ value_json.tank_distance|default(0) }}";
+  doc["val_tpl"] = "{{ value_json.distance|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
-  dev["ids"] = name;
+  dev["ids"] = id;
   dev["name"] = name;
   dev["mf"] = "Pidgeon Systems";
   dev["sw"] = "1.0";
@@ -209,7 +202,7 @@ void callback(char* topic, byte* message, unsigned int length) {
 
   // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
   // Changes the output state according to the message
-  if (String(topic) == "esp32/ota") {
+  if (String(topic) == otaTopic.c_str()) {
     Serial.print("Changing output to ");
     if(messageTemp == "on"){
       Serial.println("OTA mode on");
@@ -240,7 +233,7 @@ void setupMQTT() {
       if (client.connect(name.c_str(), mqttUser, mqttPassword))
       {
         Serial.println("connected");
-        client.subscribe("esp32/ota");
+        client.subscribe(otaTopic.c_str());
       }      
       else if (counter < 5) // delay and try again
       {
@@ -263,31 +256,32 @@ void sendData(){
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
+  pinMode(periphPower, OUTPUT);
   digitalWrite(periphPower, HIGH); //turn on for data then low after sensing
-  delay(100); //allow time for power up
-  tankDistance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  delay(40); //allow time for power up 10ms too low, 25 enough but allow 40 just to be safe
+  distance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
   digitalWrite(periphPower, LOW);
 
   //calculate volume
-  tankVol =  (((tankDistance-tankAdjust)*10)*tankArea);
-  tankCapacity = tankTotal - tankVol;
-  tankPercent = ((float)tankCapacity/(float)tankTotal)*100;
+  tankVol =  (((distance-tankAdjust)*10)*tankArea);
+  capacity = tankTotal - tankVol;
+  percent = ((float)capacity/(float)tankTotal)*100;
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
-  Serial.print("tank tank Distance = ");
-  Serial.print(tankDistance);
+  Serial.print("tank Distance = ");
+  Serial.print(distance);
   Serial.println(" cm");
 
   Serial.print("tank Litres = ");
-  Serial.print(tankCapacity);
+  Serial.print(capacity);
   Serial.print(" litres, aka ");
-  Serial.print(tankPercent);
+  Serial.print(percent);
   Serial.println(" %");
 
 
-  doc["tank_distance"] = tankDistance;
-  doc["tank_percent"] = tankPercent;
-  doc["tank_capacity"] = tankCapacity;
+  doc["distance"] = distance;
+  doc["percent"] = percent;
+  doc["capacity"] = capacity;
   size_t n = serializeJson(doc, buffer);
 
   bool published = client.publish(stateTopic.c_str(), buffer, n);
@@ -295,7 +289,6 @@ void sendData(){
 
 
 void flashLED() {
-  
   digitalWrite(ledPin, HIGH); //led on for debugging, remove once working
   delay(200);
   digitalWrite(ledPin, LOW);
@@ -304,11 +297,9 @@ void flashLED() {
 void setup() {
   Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
-  Serial.println("Configuring WiFi");
   setupWifi();
   flashLED();
 
-  Serial.println("Configuring MQTT");
   setupMQTT();
 
   for (int i = 0; i < 10; i++) {
@@ -322,13 +313,13 @@ void setup() {
   }
   else {
     Serial.println("deepsleepdisable == 0");
-    //sendMQTTPercentDiscoveryMsg();
-    //sendMQTTCapacityDiscoveryMsg();
-    //sendMQTTDistanceDiscoveryMsg();
+    sendMQTTPercentDiscoveryMsg();
+    sendMQTTCapacityDiscoveryMsg();
+    sendMQTTDistanceDiscoveryMsg();
 
-    //sendData();
+    sendData();
     delay(1000);  //allow some time for data to transmit before jumping into deep sleep
-    //deepSleep();
+    deepSleep();
   }
   
   /*
