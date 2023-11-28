@@ -42,6 +42,8 @@ NewPing sonar[SONAR_NUM] = {   // Sensor object array.
   NewPing(trigPin, echoPin, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
 };
 
+AsyncWebServer server(80); //for ota updates
+
 //create dynamic variables
 int distance;
 int tankVol;
@@ -49,9 +51,6 @@ int capacity;
 float percent;
 
 bool deepSleepDisable = 0;
-
-AsyncWebServer server(80); //for ota updates
-
 
 void startOTA(){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
@@ -81,7 +80,12 @@ void printWakeupReason(){
 
 void deepSleep() {
     Serial.println("entering Deep sleep mode");
-    Serial.flush();
+    esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR); //variables defined in config.h
+
+    //Serial.flush(); // unused as was blocking code when no serial terminal connected...
+
+    digitalWrite(ledPin, HIGH); //just ensure led is definitely off
+    digitalWrite(periphPower, LOW); //ensure peripherials are off
 
     client.disconnect(); //disconnect from broker, flush wifi before sleep
     wifiClient.flush();
@@ -121,7 +125,7 @@ void sendMQTTPercentDiscoveryMsg() {
   char buffer[2048];
 
   doc["uniq_id"] = id + "_percent";
-  doc["name"] = id + " Tank Percentage";
+  doc["name"] = "Percentage";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "%";
   doc["frc_upd"] = true;
@@ -145,14 +149,14 @@ void sendMQTTCapacityDiscoveryMsg() {
   char buffer[2048];
 
   doc["uniq_id"] = id + "_capacity";
-  doc["name"] = id + " Tank Capacity";
+  doc["name"] = "Capacity";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "L";
   doc["frc_upd"] = true;
   doc["val_tpl"] = "{{ value_json.capacity|default(0) }}";
   
   JsonObject dev = doc.createNestedObject("dev");
-  dev["ids"] = name;
+  dev["ids"] = id;
   dev["name"] = name;
   dev["mf"] = "Pidgeon Systems";
   dev["sw"] = "1.0";
@@ -169,7 +173,7 @@ void sendMQTTDistanceDiscoveryMsg() {
   char buffer[2048];
 
   doc["uniq_id"] = id + "_distance";
-  doc["name"] = id + " Tank Distance";
+  doc["name"] = "Distance";
   doc["stat_t"]   = stateTopic;
   doc["unit_of_meas"] = "cm";
   doc["frc_upd"] = true;
@@ -200,18 +204,17 @@ void callback(char* topic, byte* message, unsigned int length) {
 
   // Feel free to add more if statements to control more GPIOs with MQTT
 
-  // If a message is received on the topic esp32/output, you check if the message is either "on" or "off". 
+  // If a message is received on the topic, you check if the message is either "on" or "off". 
   // Changes the output state according to the message
   if (String(topic) == otaTopic.c_str()) {
     Serial.print("Changing output to ");
-    if(messageTemp == "on"){
+
+    if (messageTemp == "on"){
       Serial.println("OTA mode on");
-      digitalWrite(ledPin, HIGH); //led on for debugging, remove once working
       deepSleepDisable = 1;
     }
-    else if(messageTemp == "off"){
+    else { //(messageTemp == "off")
       Serial.println("OTA mode off");
-      digitalWrite(ledPin, LOW);
       deepSleepDisable = 0;
     }
   }
@@ -288,28 +291,32 @@ void sendData(){
 }
 
 
-void flashLED() {
-  digitalWrite(ledPin, HIGH); //led on for debugging, remove once working
-  delay(200);
-  digitalWrite(ledPin, LOW);
+void flashLED(int onTime) {   //onTime representing time LED will remain on for
+  digitalWrite(ledPin, LOW);  //low for en
+  delay(onTime);
+  digitalWrite(ledPin, HIGH);
 }
 
 void setup() {
   Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
+  
+  digitalWrite(ledPin, HIGH); //default led off
+
   setupWifi();
-  flashLED();
 
   setupMQTT();
 
   for (int i = 0; i < 10; i++) {
     client.loop();
+    flashLED(100);
     delay(100);
   }
   if (deepSleepDisable == 1) {
     Serial.println("deepsleepdisable == 1");
     Serial.println("Starting OTA");
     startOTA();
+    digitalWrite(ledPin, LOW); //led on for debugging, remove once working
   }
   else {
     Serial.println("deepsleepdisable == 0");
@@ -318,36 +325,20 @@ void setup() {
     sendMQTTDistanceDiscoveryMsg();
 
     sendData();
-    delay(1000);  //allow some time for data to transmit before jumping into deep sleep
+
+    for (int i = 0; i < 5; i++) {//allow some time for data to transmit before jumping into deep sleep
+    flashLED(300);
+    delay(100);
+  }
     deepSleep();
   }
-  
-  /*
-  if (bootCount == 0) { //manual reset or reload, dont transmit rain count
-    Serial.println("Initial boot, connecting to wifi (to check for saved STA), mqtt and send discovery  then going straight to sleep");
-    Serial.println("Configuring WiFi");
-    setupWifi();
-    
-    setupMQTT();
-    sendMQTTPercentDiscoveryMsg();
-    sendMQTTCapacityDiscoveryMsg();
-    sendMQTTDistanceDiscoveryMsg();
-    ++bootCount;
-    deepSleep();
-  }
-
-  ++bootCount;
-  Serial.println("Boot number: " + String(bootCount));
-  printWakeupReason();
-  setupWifi();
-  setupMQTT();
-  sendData();
-
-  delay(1000);  //allow some time for data to transmit before jumping into deep sleep
-  deepSleep();
-  */
 }
 
 void loop() {
-  ElegantOTA.loop();
+  ElegantOTA.loop(); //allows for esp.reboot
+  client.loop();
+  //loop subcribe to ota topic to go straight to sleep when topic set to off
+  if (deepSleepDisable == 0) {
+    deepSleep();
+  }
 }
