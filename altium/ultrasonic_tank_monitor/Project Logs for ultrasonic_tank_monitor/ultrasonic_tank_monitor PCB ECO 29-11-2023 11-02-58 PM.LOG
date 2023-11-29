@@ -1,0 +1,14 @@
+Removed Pin From Net: NetName=GND Pin=J3-1
+Removed Pin From Net: NetName=SOLAR_IN Pin=J3-2
+Removed Pin From Net: NetName=USB_N Pin=J5-A6
+Removed Pin From Net: NetName=USB_P Pin=J5-A7
+Removed Pin From Net: NetName=USB_N Pin=J5-B6
+Removed Pin From Net: NetName=USB_P Pin=J5-B7
+Change Component Comment : Designator=J9 Old Comment=BAT New Comment=S2B-PH-K-S
+Change Component Comment : Designator=J3 Old Comment=SOLAR New Comment=B2B-PH-K-S
+Added Pin To Net: NetName=SOLAR_IN Pin=J3-1
+Added Pin To Net: NetName=GND Pin=J3-2
+Added Pin To Net: NetName=USB_P Pin=J5-A6
+Added Pin To Net: NetName=USB_N Pin=J5-A7
+Added Pin To Net: NetName=USB_P Pin=J5-B6
+Added Pin To Net: NetName=USB_N Pin=J5-B7

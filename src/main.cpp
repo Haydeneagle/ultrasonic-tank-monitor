@@ -259,10 +259,12 @@ void sendData(){
   DynamicJsonDocument doc(2048);
   char buffer[2048];
 
+  //poll distance
   pinMode(periphPower, OUTPUT);
-  digitalWrite(periphPower, HIGH); //turn on for data then low after sensing
-  delay(40); //allow time for power up 10ms too low, 25 enough but allow 40 just to be safe
+  digitalWrite(periphPower, HIGH);  //turn on for data then low after sensing
+  delay(40);  //allow time for power up 10ms too low, 25 enough but allow 40 just to be safe
   distance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  delay(40);  //allow time for measurements before shutting power off
   digitalWrite(periphPower, LOW);
 
   //calculate volume
@@ -281,12 +283,13 @@ void sendData(){
   Serial.print(percent);
   Serial.println(" %");
 
-
+  //set json values
   doc["distance"] = distance;
   doc["percent"] = percent;
   doc["capacity"] = capacity;
   size_t n = serializeJson(doc, buffer);
 
+  //send to mqtt
   bool published = client.publish(stateTopic.c_str(), buffer, n);
 }
 
