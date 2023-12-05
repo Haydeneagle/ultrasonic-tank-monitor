@@ -342,6 +342,7 @@ void loop() {
   client.loop();
   //loop subcribe to ota topic to go straight to sleep when topic set to off
   if (deepSleepDisable == 0) {
+    sendData();
     deepSleep();
   }
 }
