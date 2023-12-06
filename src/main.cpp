@@ -303,7 +303,6 @@ void flashLED(int onTime) {   //onTime representing time LED will remain on for
 void setup() {
   Serial.begin(115200);
   pinMode(ledPin, OUTPUT);
-  
   digitalWrite(ledPin, HIGH); //default led off
 
   setupWifi();

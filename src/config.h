@@ -20,7 +20,7 @@ const char* mqtt_server = "10.0.0.23";
 
 
 //physical measurements ADJUST FOR INDIVIDUAL TANK DIMENSIONS
-const int tankAdjust = 55; //distance from the bottom of the ultrasonic tranducer to the full water level mark
+const int tankAdjust = 57; //distance from the bottom of the ultrasonic tranducer to the full water level mark
 const int tankTotal = 22500;    //total water volume in L
 const float tankDiameter = 3.56;
 const float tankRadius = tankDiameter/2;
