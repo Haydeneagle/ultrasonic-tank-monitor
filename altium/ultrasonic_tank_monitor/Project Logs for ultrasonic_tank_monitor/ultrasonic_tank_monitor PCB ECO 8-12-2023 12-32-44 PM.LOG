@@ -1,0 +1,116 @@
+Removed Pin From Net: NetName=GND Pin=*-1
+Removed Pin From Net: NetName=CHGR_IN Pin=*-4
+Removed Pin From Net: NetName=VBAT Pin=*-5
+Removed Pin From Net: NetName=STDBY Pin=*-6
+Removed Pin From Net: NetName=CHRG Pin=*-7
+Removed Pin From Net: NetName=CHGR_IN Pin=*-8
+Removed Pin From Net: NetName=GND Pin=*-9
+Removed Pin From Net: NetName=VBAT Pin=C10-2
+Removed Pin From Net: NetName=CHGR_IN Pin=D7-1
+Removed Pin From Net: NetName=CHGR_IN Pin=D8-1
+Removed Pin From Net: NetName=CHGR_IN Pin=R13-2
+Removed Pin From Net: NetName=CHRG Pin=R14-2
+Removed Pin From Net: NetName=STDBY Pin=R15-2
+Removed Pin From Net: NetName=GND Pin=R16-1
+Removed Member From Class: ClassName=ultrasonic_tank_monitor_battery Member=*
+Removed Member From Class: ClassName=ultrasonic_tank_monitor_battery Member=R15
+Removed Member From Class: ClassName=ultrasonic_tank_monitor_battery Member=R16
+Added Component: Designator=C13(CAP 0603_1608)
+Add component (AddParameter): Name = "Applications"; Value = "General Purpose"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Capacitance"; Value = "10 µF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "componentlink1description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "componentlink1url"; Value = "https://search.murata.co.jp/Ceramy/image/img/A01X/G101/ENG/GRM188R61A106ME69-01.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "componentlink2description"; Value = "DigiKey Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "componentlink2url"; Value = "https://www.digikey.com/en/products/detail/murata-electronics/GRM188R61A106ME69D/5027560"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Device Package"; Value = "0603 (1608 Metric)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "lastupdated"; Value = "3/06/2023 7:12:12 PM"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Lifecycle Status"; Value = "Active"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "manufacturer"; Value = "Murata Electronics"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Minimum Order"; Value = "1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Type"; Value = "Surface Mount, MLCC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Temperature"; Value = "-55°C ~ 85°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package / Case"; Value = "0603 (1608 Metric)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "packaging"; Value = "TapeAndReel"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Part Number"; Value = "GRM188R61A106ME69D"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Part Status"; Value = "Active"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "partid"; Value = "11157"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "price"; Value = "0.01"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "series"; Value = "GRM"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Size / Dimension"; Value = "0.063" L x 0.031" W (1.60mm x 0.80mm)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "DigiKey"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "490-10475-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Temperature Coefficient"; Value = "X5R"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Thickness (Max)"; Value = "0.037" (0.95mm)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Tolerance"; Value = "±20%"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Value"; Value = "10 µF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage - Rated"; Value = "10V"; VariantName = "[No Variations]"
+Added Component: Designator=D11(DO214AC SMA)
+Add component (AddParameter): Name = "Capacitance @ Vr, F"; Value = "450pF @ 4V, 1MHz"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1Description"; Value = "Datasheet"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink1URL"; Value = "http://www.comchiptech.com/admin/files/product/20190514101641.pdf"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2Description"; Value = "DigiKey Link"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "ComponentLink2URL"; Value = "https://www.digikey.com/en/products/detail/comchip-technology/SS34-HF/10279693"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current - Average Rectified (Io)"; Value = "3A"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Current - Reverse Leakage @ Vr"; Value = "500 µA @ 40 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Diode Type"; Value = "Schottky"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "LastUpdated"; Value = "7/08/2023 8:38:18 PM"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Lifecycle Status"; Value = "Active"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "Comchip Technology"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Minimum Order"; Value = "1"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Mounting Type"; Value = "Surface Mount"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Operating Temperature - Junction"; Value = "-55°C ~ 125°C"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Package / Case"; Value = "DO-214AC, SMA"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Packaging"; Value = "TapeAndReel"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Part Number"; Value = "SS34-HF"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Part Status"; Value = "Active"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "PartId"; Value = "2138"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Price"; Value = "0.07"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Series"; Value = "-"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Speed"; Value = "Fast Recovery =< 500ns, > 200mA (Io)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier 1"; Value = "DigiKey"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Device Package"; Value = "DO-214AC (SMA)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part Number 1"; Value = "641-2115-1-ND"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage - DC Reverse (Vr) (Max)"; Value = "40 V"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Voltage - Forward (Vf) (Max) @ If"; Value = "550 mV @ 3 A"; VariantName = "[No Variations]"
+Added Component: Designator=L1(IND-SMD_L5.2-W5.2_YSPI0530)
+Add component (AddParameter): Name = "JLCPCB Part Class"; Value = "Extended Part"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer"; Value = "TAIYO YUDEN(??)"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Manufacturer Part"; Value = "NR3015T2R2M"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "nameAlias"; Value = "Value"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spicePre"; Value = "L"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "spiceSymbolName"; Value = "NR3015T2R2M"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier"; Value = "LCSC"; VariantName = "[No Variations]"
+Add component (AddParameter): Name = "Supplier Part"; Value = "C86423"; VariantName = "[No Variations]"
+Added Component: Designator=U6(ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP)
+Added Pin To Net: NetName=GND Pin=C13-1
+Added Pin To Net: NetName=VBAT Pin=C13-2
+Added Pin To Net: NetName=CHGR_IN Pin=D6-2
+Added Pin To Net: NetName=CHRG Pin=D7-2
+Added Pin To Net: NetName=STDBY Pin=D8-2
+Added Pin To Net: NetName=GND Pin=D11-1
+Added Pin To Net: NetName=CHGR_IN Pin=Q1-2
+Added Pin To Net: NetName=VBAT Pin=R13-2
+Added Pin To Net: NetName=CHGR_IN Pin=R14-1
+Added Pin To Net: NetName=GND Pin=U6-2
+Added Pin To Net: NetName=VBAT Pin=U6-4
+Added Pin To Net: NetName=GND Pin=U6-5
+Added Pin To Net: NetName=STDBY Pin=U6-6
+Added Pin To Net: NetName=CHRG Pin=U6-7
+Added Pin To Net: NetName=CHGR_IN Pin=U6-8
+Added Pin To Net: NetName=LX Pin=D11-2
+Added Pin To Net: NetName=LX Pin=L1-1
+Added Pin To Net: NetName=LX Pin=U6-1
+Added Net: Name=LX
+Added Pin To Net: NetName=NetD7_1 Pin=D7-1
+Added Pin To Net: NetName=NetD7_1 Pin=D8-1
+Added Pin To Net: NetName=NetD7_1 Pin=R14-2
+Added Net: Name=NetD7_1
+Added Pin To Net: NetName=VS Pin=C10-2
+Added Pin To Net: NetName=VS Pin=L1-2
+Added Pin To Net: NetName=VS Pin=R13-1
+Added Pin To Net: NetName=VS Pin=U6-3
+Added Net: Name=VS
+Added Member To Class: ClassName=ultrasonic_tank_monitor_battery Member=Component C13 10 µF
+Added Member To Class: ClassName=ultrasonic_tank_monitor_battery Member=Component D11 SS34-HF
+Added Member To Class: ClassName=ultrasonic_tank_monitor_battery Member=Component L1 4.7uH
+Added Member To Class: ClassName=ultrasonic_tank_monitor_battery Member=Component U6 TP5000-ESOP8
