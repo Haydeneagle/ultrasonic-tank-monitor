@@ -54,7 +54,7 @@ bool deepSleepDisable = 0;
 
 void startOTA(){
   server.on("/", HTTP_GET, [](AsyncWebServerRequest *request) {
-    request->send(200, "text/plain", "Hi! This is ElegantOTA AsyncDemo. test");
+    request->send(200, "text/html", index_html);
   });
 
   ElegantOTA.begin(&server);
