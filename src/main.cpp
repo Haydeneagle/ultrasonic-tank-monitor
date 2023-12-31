@@ -339,6 +339,8 @@ void setup() {
 void loop() {
   ElegantOTA.loop(); //allows for esp.reboot
   client.loop();
+  sendData();
+  delay(1000);
   //loop subcribe to ota topic to go straight to sleep when topic set to off
   if (deepSleepDisable == 0) {
     sendData();
