@@ -10,8 +10,7 @@ Currently, the data is transmitted over Wi-Fi using the MQTT protocol to communi
 
 A custom PCB has been created to interface the ESP32-C3 with a number of ports, while also optimizing for low power usage in deep sleep with a 70uA quiescent current. The board is powered by a single Li-ion 4.2V 18650 cell and supports charging by both 5V USB, and via the solar input.
 
-![A picture of a unit fully assembled ready to be installed](/images/assembled.jpg)
-![A picture of a unit installed into a tank](/images/installed.jpg)
+![A picture of a unit fully assembled ready to be installed](/images/assembled.jpg) ![A picture of a unit installed into a tank](/images/installed.jpg)
 
 ## Features
 * WiFiManager for simple first time Wi-Fi setup
