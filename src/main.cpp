@@ -51,6 +51,7 @@ int tankVol;
 int capacity;
 float percent;
 
+uint64_t lastPublish = esp_timer_get_time(); // used by publish
 bool deepSleepDisable = 0;
 
 void startOTA(){
@@ -206,7 +207,7 @@ void setupMQTT() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
   client.setBufferSize(512);
-    
+
     int counter = 0;
     while (!client.connected())
     {
@@ -295,10 +296,11 @@ void setup() {
     delay(100);
   }
   if (deepSleepDisable == 1) {
-    Serial.println("deepsleepdisable == 1");
+    Serial.println("deepSleepDisable == 1");
     Serial.println("Starting OTA");
     startOTA();
     digitalWrite(ledPin, LOW); //led on for debugging, remove once working
+
   }
   else {
     Serial.println("deepsleepdisable == 0");
@@ -311,7 +313,7 @@ void setup() {
     for (int i = 0; i < 5; i++) {//allow some time for data to transmit before jumping into deep sleep
     flashLED(300);
     delay(100);
-  }
+    }
     deepSleep();
   }
 }
@@ -319,7 +321,18 @@ void setup() {
 void loop() {
   ElegantOTA.loop(); //has to be in loop to allow for reboot
   client.loop();
-  sendData();
+
+  int TimeToPublish = 5000000; //5000000uS (5s)
+
+  if ( (esp_timer_get_time() - lastPublish) >= TimeToPublish ) //checking time for 5s updates, device became unresponsive without
+    {
+      sendData();// data for mqtt publish
+      lastPublish = esp_timer_get_time(); // get next publish time
+      Serial.println(lastPublish/1000000); //debugging to check timings
+      Serial.println(deepSleepDisable);
+      Serial.println(client.state());
+    }
+
   //loop subcribe to ota topic to go straight to sleep when topic set to off
   if (deepSleepDisable == 0) {
     deepSleep();
