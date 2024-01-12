@@ -20,7 +20,7 @@ A custom PCB has been created to interface the ESP32-C3 with a number of ports, 
 * Simple communications for integration with MQTT for various uses
 * Built in battery protection
 
-![Alt](/images/complete. "Title")
+![A picture of the fully assembled unit sealed and ready for installation](/images/installed.jpg "Title")
 
 ## Hardware
 The entire PCB project can be found in the Altium folder in this repo. This includes source files for modification, but also prezipped Gerbers for manufacturing. To manufacture this board you can submit these to a website such as JLCPCB (who I use) or PCBWay, both of which who are very cheap suppliers. The components were purchased from LCSC I opted to hand solder the entire PCB, however in future I would order a stencil to apply paste and use a reflow oven as it was tedious and led to numerous errors.
