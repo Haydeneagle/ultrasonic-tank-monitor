@@ -18,6 +18,7 @@ this is the file
 #include <PubSubClient.h>
 #include <ArduinoJson.h>
 #include <NewPing.h>  //for sonar modules
+
 #include <config.h>
 #include <secret.h>
 
@@ -39,7 +40,7 @@ int value = 0;
 
 //declare object of sonar
 NewPing sonar[SONAR_NUM] = {   // Sensor object array.
-  NewPing(trigPin, echoPin, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
+NewPing(trigPin, echoPin, MAX_DISTANCE), // Each sensor's trigger pin, echo pin, and max distance to ping. 
 };
 
 AsyncWebServer server(80); //for ota updates
@@ -57,30 +58,14 @@ void startOTA(){
     request->send(200, "text/html", index_html);
   });
 
-  ElegantOTA.begin(&server);
+  ElegantOTA.begin(&server, otaUser, otaPass);
   server.begin();
   Serial.println("HTTP server started");
 }
 
-void printWakeupReason(){
-  esp_sleep_wakeup_cause_t wakeupReason;
-
-  wakeupReason = esp_sleep_get_wakeup_cause();
-
-  switch(wakeupReason)
-  {
-    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
-    case ESP_SLEEP_WAKEUP_EXT1 : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
-    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("Wakeup caused by timer"); break;
-    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("Wakeup caused by touchpad"); break;
-    case ESP_SLEEP_WAKEUP_ULP : Serial.println("Wakeup caused by ULP program"); break;
-    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n",wakeupReason); break;
-  }
-}
-
 void deepSleep() {
     Serial.println("entering Deep sleep mode");
-    esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR); //variables defined in config.h
+    esp_sleep_enable_timer_wakeup(TIME_TO_SLEEP * uS_TO_S_FACTOR); //constants defined in config.h
 
     //Serial.flush(); // unused as was blocking code when no serial terminal connected...
 
@@ -105,7 +90,7 @@ void setupWifi() {
   WiFiManager wifiManager;
 
   String HOTSPOT = id;
-  wifiManager.setSaveConnectTimeout(10); //set for redundancy due to constant connect errors. Might have been USB power supply rated, as no problemms on abttery
+  wifiManager.setSaveConnectTimeout(10); //set for redundancy due to constant connect errors. Might have been USB power supply rated, as no problemms on battery
   wifiManager.setConnectTimeout(10); 
   wifiManager.setConnectRetries(5); // we have plenty of battery life and this will rule out any issues with long range connections, in future move away from wifiManager
   wifiManager.setConfigPortalTimeout(120);
@@ -202,13 +187,8 @@ void callback(char* topic, byte* message, unsigned int length) {
   }
   Serial.println();
 
-  // Feel free to add more if statements to control more GPIOs with MQTT
-
-  // If a message is received on the topic, you check if the message is either "on" or "off". 
-  // Changes the output state according to the message
+  // checks message on /ota topic to see whether to enter OTA update mode, or return to deep sleep
   if (String(topic) == otaTopic.c_str()) {
-    Serial.print("Changing output to ");
-
     if (messageTemp == "on"){
       Serial.println("OTA mode on");
       deepSleepDisable = 1;
@@ -222,10 +202,10 @@ void callback(char* topic, byte* message, unsigned int length) {
 
 void setupMQTT() {
   Serial.println("Configuring MQTT....");
+
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
-    //client.setCallback(callback);
-    client.setBufferSize(512);
+  client.setBufferSize(512);
     
     int counter = 0;
     while (!client.connected())
@@ -337,13 +317,11 @@ void setup() {
 }
 
 void loop() {
-  ElegantOTA.loop(); //allows for esp.reboot
+  ElegantOTA.loop(); //has to be in loop to allow for reboot
   client.loop();
   sendData();
-  delay(1000);
   //loop subcribe to ota topic to go straight to sleep when topic set to off
   if (deepSleepDisable == 0) {
-    sendData();
     deepSleep();
   }
 }
