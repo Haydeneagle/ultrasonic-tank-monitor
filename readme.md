@@ -8,14 +8,17 @@ To measure the water level, the AJ-SR04M waterproof ultrasonic sensor is used, m
 
 Currently, the data is transmitted over Wi-Fi using the MQTT protocol to communicate with a Mosquitto broker linked to Home Assistant, allowing for the data to be easily visualized and used in home automations. In the near future I will likely move to a LoRa based system however currently I do not have a gateway, so provided Wi-Fi signal is adequate, it works well.
 
-A custom PCB has been created to interface the ESP32-C3 with a number of ports, while also optimizing for low power usage in deep sleep with a 70uA quiescent current. The board is powered by a single Li-ion 4.2V 18650 cell and supports charging by both 5V USB, and via the solar input.
+A custom PCB has been created to interface the ESP32-C3 with a number of ports, while also optimizing for low power usage in deep sleep with a 70uA quiescent current and 30+ day battery life. The board is powered by a single Li-ion 4.2V 18650 cell and supports charging by both 5V USB, and via the solar input.
 
-![A picture of a unit fully assembled ready to be installed](/images/assembled.jpg) ![A picture of a unit installed into a tank](/images/installed.jpg)
+|Ready for installation|Installed|
+|:-:|:-:|
+![A picture of a unit fully assembled ready to be installed](/images/assembled.jpg) | ![A picture of a unit installed into a tank](/images/installed.jpg)
 
 ## Features
 * WiFiManager for simple first time Wi-Fi setup
 * OTA updating
 * Simple installation and construction
+
 * Low 70uA quiescent current allowing for 30+ day battery life
 * Dual USB/Solar charge input
 * +- 1 CM accuracy in measurement
@@ -28,13 +31,14 @@ A custom PCB has been created to interface the ESP32-C3 with a number of ports, 
 ## Hardware
 The entire PCB project can be found in the Altium folder in this repo. This includes source files for modification, but also prezipped Gerbers for manufacturing. To manufacture this board you can submit these to a website such as JLCPCB (who I use) or PCBWay, both of which who are very cheap suppliers. The components were purchased from LCSC I opted to hand solder the entire PCB, however in future I would order a stencil to apply paste and use a reflow oven as it was tedious and led to numerous errors.
 
-Revision 2 of the PCB is underway, fixing a number of issues with the original including:
+Revision 2 of the PCB is underway, and I would advise against attempting to produce Revision 1.
+Rev 2 is focused on fixing a number of issues with the original including:
 * Correcting USB pair connections (were reversed) 
 * Solar input can power circuit directly (was preventing battery charger IC from finishing charge)
 * Correct board shape to fit into 76x76 enclosure
 * Possibly switching to SMPS to maximize battery usage
 
-### Primary Components
+### Primary PCB Components
 The primary ICs/modules used are
 * ESP32-C3-WROOM-02-N4
 * AP7361C-33E-13 1A 3.3V LDO
@@ -45,8 +49,8 @@ The primary ICs/modules used are
 ### Shopping List
 I have listed below the items needed to recreate this project along with estimated associated costing in $AUD and including shipping. Obviously this can vary a lot so use it as an estimate.
 
-1. Fully assembled ESP32-C3 custom PCB $20 (entire PCBA hand soldered)
-2. Li-ion 4.2V 18650 cell (I have used Samsung INR18650-25R harvested out of a powertool battery)
+1. Fully assembled ESP32-C3 custom PCB $20 (hand soldered by me)
+2. Li-ion 4.2V 18650 cell (I have used Samsung INR18650-25R harvested out of a powertool battery but any will work)
 3. [AJ-SR04M waterproof ultrasonic sensor](https://www.aliexpress.com/item/4001116678728.html?spm=a2g0o.order_list.order_list_main.5.41e31802lgvw9L) $6
 4. [Adaptable Box 108mm x 108mm x 76mm](https://www.sparkydirect.com.au/p/NLS-30092-Adaptable-Box-108mm-x-108mm-x-76mm) $9
 5. [1" BSP Thread Pipe Nipple](https://www.bunnings.com.au/philmac-1-bsp-thread-pipe-nipple_p4813780) $3
