@@ -73,14 +73,13 @@ void deepSleep() {
     digitalWrite(ledPin, HIGH); //just ensure led is definitely off
     digitalWrite(periphPower, LOW); //ensure peripherials are off
 
-    client.disconnect(); //disconnect from broker, flush wifi before sleep
-    wifiClient.flush();
+    client.disconnect(); //disconnect from broker cleanly
+    wifiClient.flush(); //flush wifi before sleep
 
     while( client.state() != -1){  
     Serial.println(client.state());
     delay(10);
     }
-    //adc_power_release(); // doesnt exist for some reason but would likely drop my sleep current
     esp_wifi_stop(); //force close wifi to be sure its off, drops from 1.6ma to 0.1ma
     esp_deep_sleep_start();
 }
@@ -93,7 +92,7 @@ void setupWifi() {
   String HOTSPOT = id;
   wifiManager.setSaveConnectTimeout(10); //set for redundancy due to constant connect errors. Might have been USB power supply rated, as no problemms on battery
   wifiManager.setConnectTimeout(10); 
-  wifiManager.setConnectRetries(5); // we have plenty of battery life and this will rule out any issues with long range connections, in future move away from wifiManager
+  wifiManager.setConnectRetries(5); // we have plenty of battery life and this will rule out any issues with long range connections
   wifiManager.setConfigPortalTimeout(120);
   if (!wifiManager.autoConnect((const char * ) HOTSPOT.c_str())) {
     Serial.println("failed to connect and hit timeout");
@@ -207,6 +206,7 @@ void setupMQTT() {
   client.setServer(mqtt_server, 1883);
   client.setCallback(callback);
   client.setBufferSize(512);
+  client.setKeepAlive(60);
 
     int counter = 0;
     while (!client.connected())
@@ -214,7 +214,7 @@ void setupMQTT() {
       Serial.print("Attempting MQTT connection...");
 
       // Attempt to connect to mqtt
-      if (client.connect(name.c_str(), mqttUser, mqttPassword))
+      if (client.connect(id.c_str(), mqttUser, mqttPassword))
       {
         Serial.println("connected");
         client.subscribe(otaTopic.c_str());
@@ -237,8 +237,8 @@ void setupMQTT() {
 }
 
 void sendData(){
-  DynamicJsonDocument doc(2048);
-  char buffer[2048];
+  StaticJsonDocument<128> doc;
+  char buffer[128];
 
   //poll distance
   pinMode(periphPower, OUTPUT);
@@ -250,8 +250,8 @@ void sendData(){
 
   //calculate volume
   tankVol =  (((distance-tankAdjust)*10)*tankArea);
-  capacity = tankTotal - tankVol;
-  percent = ((float)capacity/(float)tankTotal)*100;
+  capacity = tankTotalVol - tankVol;
+  percent = ((float)capacity/(float)tankTotalVol)*100;
 
   // Print the distance on the Serial Monitor (Ctrl+Shift+M):
   Serial.print("tank Distance = ");
@@ -295,12 +295,12 @@ void setup() {
     flashLED(100);
     delay(100);
   }
+
   if (deepSleepDisable == 1) {
     Serial.println("deepSleepDisable == 1");
     Serial.println("Starting OTA");
     startOTA();
     digitalWrite(ledPin, LOW); //led on for debugging, remove once working
-
   }
   else {
     Serial.println("deepsleepdisable == 0");
@@ -318,22 +318,27 @@ void setup() {
   }
 }
 
+//this code will only run when /ota topic is set to on, otherwise it will not enter loop()
 void loop() {
   ElegantOTA.loop(); //has to be in loop to allow for reboot
-  client.loop();
+
+  if (!client.connected()) { //if lost mqtt connection, reconnect
+    Serial.println("Connection lost.. reconnecting");
+    setupMQTT();
+  }
+  client.loop();//loop to subscribe to /ota topic for disable
 
   int TimeToPublish = 5000000; //5000000uS (5s)
-
-  if ( (esp_timer_get_time() - lastPublish) >= TimeToPublish ) //checking time for 5s updates, device became unresponsive without
+  if ( (esp_timer_get_time() - lastPublish) >= TimeToPublish ) //transmit every 5s during active ota mode
     {
       sendData();// data for mqtt publish
       lastPublish = esp_timer_get_time(); // get next publish time
       Serial.println(lastPublish/1000000); //debugging to check timings
-      Serial.println(deepSleepDisable);
+
       Serial.println(client.state());
     }
 
-  //loop subcribe to ota topic to go straight to sleep when topic set to off
+  //enter deep sleep as soon as /ota topic changed
   if (deepSleepDisable == 0) {
     deepSleep();
   }

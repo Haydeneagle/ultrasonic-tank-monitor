@@ -16,13 +16,13 @@ const String topic = "home/tank_monitor/" + id;
 const String otaTopic = topic + "/ota";
 const String stateTopic = topic + "/state";
 const String discTopic = "homeassistant/sensor/" + id;
-const char* mqtt_server = "10.0.0.23";
+const char* mqtt_server = "10.0.30.2";
 
 
 //physical measurements ADJUST FOR INDIVIDUAL TANK DIMENSIONS
-const int tankAdjust = 47; //distance from the bottom of the ultrasonic tranducer to the full water level mark
-const int tankTotal = 27250;    //total water volume in L
-const float tankDiameter = 3.65;
+const int tankAdjust = 57; //distance from the bottom of the ultrasonic tranducer to the full water level mark
+const int tankTotalVol = 22500;    //total water volume in L
+const float tankDiameter = 3.56;
 const float tankRadius = tankDiameter/2;
 const float tankArea = M_PI * (tankRadius*tankRadius); //tank area m2
 
