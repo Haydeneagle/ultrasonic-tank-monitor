@@ -24,19 +24,15 @@ this is the file
 
 RTC_DATA_ATTR int bootCount = 0; // set boot count so we know not to transmit on initial load
 
-//set wifi parameters and create instances, credentials stores in secret.h
+//construct objects, credentials stores in secret.h
 WiFiClient wifiClient;
-
 PubSubClient client(wifiClient);
-long lastMsg = 0;
-char msg[50];
-int value = 0;
 
-//create variables for both trig and echo
+//pin definitions
 #define periphPower 3 //pin must be set to high to switch 3v3 to peripherials
 #define trigPin 5
 #define echoPin 4
-#define ledPin 10
+#define ledPin 10 //active low
 
 //declare object of sonar
 NewPing sonar[SONAR_NUM] = {   // Sensor object array.
@@ -46,10 +42,10 @@ NewPing(trigPin, echoPin, MAX_DISTANCE), // Each sensor's trigger pin, echo pin,
 AsyncWebServer server(80); //for ota updates
 
 //create dynamic variables
-int distance;
-int tankVol;
-int capacity;
-float percent;
+int distance; //ultrasonic measurement distance
+int tankVol; //tank maximum volume (L)
+int capacity; //calculated water volume (L)
+float percent; //percent remaining water
 
 uint64_t lastPublish = esp_timer_get_time(); // used by publish
 bool deepSleepDisable = 0;
@@ -59,7 +55,8 @@ void startOTA(){
     request->send(200, "text/html", index_html);
   });
 
-  ElegantOTA.begin(&server, otaUser, otaPass);
+  ElegantOTA.setAuth(otaUser, otaPass);
+  ElegantOTA.begin(&server);
   server.begin();
   Serial.println("HTTP server started");
 }
@@ -236,7 +233,7 @@ void setupMQTT() {
     }
 }
 
-void sendData(){
+void sendData(){ 
   StaticJsonDocument<128> doc;
   char buffer[128];
 
