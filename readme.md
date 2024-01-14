@@ -18,15 +18,33 @@ A custom PCB has been created to interface the ESP32-C3 with a number of ports, 
 * WiFiManager for simple first time Wi-Fi setup
 * OTA updating
 * Simple installation and construction
-
 * Low 70uA quiescent current allowing for 30+ day battery life
 * Dual USB/Solar charge input
 * +- 1 CM accuracy in measurement
 * Simple communications for integration with MQTT for various uses
 * Built in battery protection
 * Optional support for water temperature sensor
+* Access to full ESP32-C3 IO through header pins
+
+## Software
+The project is built on the Arduino framework for ESP32 and all code is visible in this repo. It is solely designed to integrate with the Mosquitto broker hosted on a Home Assistant server. While this functionalty is its primary purpose, there is no reason it cannot publish the data to any other MQTT broker for any other purpose.
+
+When used with Home Assistant, the device will publish Discovery messages to automatically be found by Home Assistant and be added as an Entity. This means no direct configuration is required on Home Assistant, and the entity can be used immediately in Automations or visualizations.
+
+The WifiManager library is used to handle connection to a Wi-Fi network. If no credentials are saved, it will broadcast an access point for a client to connect to and configure the chosen network directly. Once a network has been saved, the device will automatically connect seamlessly.
+
+The PubSubClient library handles all required MQTT communications, allowing easy connection to a broker and both subscribing and publishing messages.
+
+To collect the measurement, the NewPing library is utilized to interface with the ultrasonic sensor. This library samples the sensor 10 times and finds the median value to remove most of the erronous data. The value is then stored.
+
+It is then used to compute the volume of water remaining using the given total volume and area numbers. These results are formatted as a JSON doc, serialized, and published to the MQTT topic specified in the config.
 
 
+
+
+
+The flowchart below shows a high level overview of a typical sequence of events. This does not include all possible events, however does give an idea for the two major paths, of whether the device publishes once and enters deep sleep, or whether the OTA flag is set and it enters a continual loop waiting for OTA updates.
+![A flow chart showing the general path in software](/images/flow_chart.svg)
 
 ## Hardware
 The entire PCB project can be found in the Altium folder in this repo. This includes source files for modification, but also prezipped Gerbers for manufacturing. To manufacture this board you can submit these to a website such as JLCPCB (who I use) or PCBWay, both of which who are very cheap suppliers. The components were purchased from LCSC I opted to hand solder the entire PCB, however in future I would order a stencil to apply paste and use a reflow oven as it was tedious and led to numerous errors.
@@ -38,6 +56,10 @@ Rev 2 is focused on fixing a number of issues with the original including:
 * Solar input can power circuit directly (was preventing battery charger IC from finishing charge)
 * Correct board shape to fit into 76x76 enclosure
 * Possibly switching to SMPS to maximize battery usage
+
+### Hardware Specifications
+* Solar input: 4.5-6V
+* Battery type: Lithium-Ion 18650 4.2V
 
 ### Primary PCB Components
 The primary ICs/modules used are
