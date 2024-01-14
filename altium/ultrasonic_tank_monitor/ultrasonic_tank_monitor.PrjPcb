@@ -171,86 +171,78 @@ DocumentPath=Project Outputs for ultrasonic_tank_monitor\Design Rule Check - ult
 DItemRevisionGUID=
 
 [GeneratedDocument2]
-DocumentPath=Project Outputs for ultrasonic_tank_monitor\Pick Place for ultrasonic_tank_monitor.csv
-DItemRevisionGUID=
-
-[GeneratedDocument3]
-DocumentPath=Project Outputs for ultrasonic_tank_monitor\Pick Place for ultrasonic_tank_monitor.txt
-DItemRevisionGUID=
-
-[GeneratedDocument4]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-RoundHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument5]
+[GeneratedDocument3]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-SlotHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument6]
+[GeneratedDocument4]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.DRR
 DItemRevisionGUID=
 
-[GeneratedDocument7]
+[GeneratedDocument5]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.EXTREP
 DItemRevisionGUID=
 
-[GeneratedDocument8]
+[GeneratedDocument6]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBL
 DItemRevisionGUID=
 
-[GeneratedDocument9]
+[GeneratedDocument7]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBS
 DItemRevisionGUID=
 
-[GeneratedDocument10]
+[GeneratedDocument8]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM1
 DItemRevisionGUID=
 
-[GeneratedDocument11]
+[GeneratedDocument9]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM2
 DItemRevisionGUID=
 
-[GeneratedDocument12]
+[GeneratedDocument10]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM13
 DItemRevisionGUID=
 
-[GeneratedDocument13]
+[GeneratedDocument11]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM15
 DItemRevisionGUID=
 
-[GeneratedDocument14]
+[GeneratedDocument12]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPB
 DItemRevisionGUID=
 
-[GeneratedDocument15]
+[GeneratedDocument13]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPT
 DItemRevisionGUID=
 
-[GeneratedDocument16]
+[GeneratedDocument14]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTL
 DItemRevisionGUID=
 
-[GeneratedDocument17]
+[GeneratedDocument15]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTO
 DItemRevisionGUID=
 
-[GeneratedDocument18]
+[GeneratedDocument16]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTP
 DItemRevisionGUID=
 
-[GeneratedDocument19]
+[GeneratedDocument17]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTS
 DItemRevisionGUID=
 
-[GeneratedDocument20]
+[GeneratedDocument18]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.LDP
 DItemRevisionGUID=
 
-[GeneratedDocument21]
+[GeneratedDocument19]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.REP
 DItemRevisionGUID=
 
-[GeneratedDocument22]
+[GeneratedDocument20]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.RUL
 DItemRevisionGUID=
 
@@ -464,10 +456,6 @@ OutputName2=Generates pick and place files
 OutputDocumentPath2=
 OutputVariantName2=[No Variations]
 OutputDefault2=0
-Configuration2_Name1=ForceUpdateSettings
-Configuration2_Item1=False
-Configuration2_Name2=OutputConfigurationParameter1
-Configuration2_Item2=Record=PickPlaceView|Units=Metric|GenerateCSVFormat=True|GenerateTextFormat=True|ShowUnits=False|Separator=.|ExcludeFilterParam=False|IncludeVariations=False|IncludeStandardNoBOM=True|Filter= |FilterActive=False|YFlip=False|Column#1=Name:Designator,Fixed:True,Metric:False,Visible:True,Sort:None,Position:0|Column#2=Name:Comment,Fixed:True,Metric:False,Visible:True,Sort:None,Position:1|Column#3=Name:Layer,Fixed:True,Metric:False,Visible:True,Sort:None,Position:2|Column#4=Name:Footprint,Fixed:True,Metric:False,Visible:True,Sort:None,Position:3|Column#5=Name:Footprint Description,Fixed:True,Metric:False,Visible:False,Sort:None,Position:4|Column#6=Name:Center-X,Fixed:True,Metric:True,Visible:True,Sort:None,Position:5|Column#7=Name:Center-Y,Fixed:True,Metric:True,Visible:True,Sort:None,Position:6|Column#8=Name:Rotation,Fixed:True,Metric:False,Visible:True,Sort:None,Position:7|Column#9=Name:Description,Fixed:True,Metric:False,Visible:True,Sort:None,Position:8|Column#10=Name:ComponentKind,Fixed:True,Metric:False,Visible:False,Sort:None,Position:9|Column#11=Name:Height,Fixed:True,Metric:True,Visible:False,Sort:None,Position:10|Column#12=Name:Ref-X,Fixed:True,Metric:True,Visible:False,Sort:None,Position:11|Column#13=Name:Ref-Y,Fixed:True,Metric:True,Visible:False,Sort:None,Position:12|Column#14=Name:Pad-X,Fixed:True,Metric:True,Visible:False,Sort:None,Position:13|Column#15=Name:Pad-Y,Fixed:True,Metric:True,Visible:False,Sort:None,Position:14|Column#16=Name:Variation,Fixed:True,Metric:False,Visible:False,Sort:None,Position:15|Column#17=Name:Package / Case,Fixed:False,Metric:False,Visible:False,Sort:None,Position:51|Column#18=Name:JLCPCB Part Class,Fixed:False,Metric:False,Visible:False,Sort:None,Position:36|Column#19=Name:Height - Seated (Max),Fixed:False,Metric:False,Visible:False,Sort:None,Position:34|Column#20=Name:Configuration,Fixed:False,Metric:False,Visible:False,Sort:None,Position:25|Column#21=Name:Supplier Part,Fixed:False,Metric:False,Visible:False,Sort:None,Position:70|Column#22=Name:spicePre,Fixed:False,Metric:False,Visible:False,Sort:None,Position:65|Column#23=Name:Voltage - Rated,Fixed:False,Metric:False,Visible:False,Sort:None,Position:84|Column#24=Name:Number of Terminations,Fixed:False,Metric:False,Visible:False,Sort:None,Position:48|Column#25=Name:Current - Test,Fixed:False,Metric:False,Visible:False,Sort:None,Position:30|Column#26=Name:Voltage - Clamping (Max) @ Ipp,Fixed:False,Metric:False,Visible:False,Sort:None,Position:80|Column#27=Name:Current - Reverse Leakage @ Vr,Fixed:False,Metric:False,Visible:False,Sort:None,Position:29|Column#28=Name:Part Number,Fixed:False,Metric:False,Visible:False,Sort:None,Position:53|Column#29=Name:Minimum Order,Fixed:False,Metric:False,Visible:False,Sort:None,Position:45|Column#30=Name:Part Status,Fixed:False,Metric:False,Visible:False,Sort:None,Position:54|Column#31=Name:Power (Watts),Fixed:False,Metric:False,Visible:False,Sort:None,Position:57|Column#32=Name:Lens Style,Fixed:False,Metric:False,Visible:False,Sort:None,Position:40|Column#33=Name:packaging,Fixed:False,Metric:False,Visible:False,Sort:None,Position:52|Column#34=Name:Supplier,Fixed:False,Metric:False,Visible:False,Sort:None,Position:67|Column#35=Name:Ratings,Fixed:False,Metric:False,Visible:False,Sort:None,Position:60|Column#36=Name:Current - Peak Pulse (10/1000µs),Fixed:False,Metric:False,Visible:False,Sort:None,Position:28|Column#37=Name:Diode Type,Fixed:False,Metric:False,Visible:False,Sort:None,Position:32|Column#38=Name:Speed,Fixed:False,Metric:False,Visible:False,Sort:None,Position:64|Column#39=Name:Applications,Fixed:False,Metric:False,Visible:False,Sort:None,Position:16|Column#40=Name:Lens Size,Fixed:False,Metric:False,Visible:False,Sort:None,Position:39|Column#41=Name:Operating Temperature - Junction,Fixed:False,Metric:False,Visible:False,Sort:None,Position:50|Column#42=Name:Thickness (Max),Fixed:False,Metric:False,Visible:False,Sort:None,Position:73|Column#43=Name:Height (Max),Fixed:False,Metric:False,Visible:False,Sort:None,Position:35|Column#44=Name:Voltage - DC Reverse (Vr) (Max),Fixed:False,Metric:False,Visible:False,Sort:None,Position:81|Column#45=Name:Voltage - Forward (Vf) (Typ),Fixed:False,Metric:False,Visible:False,Sort:None,Position:83|Column#46=Name:Wavelength - Dominant,Fixed:False,Metric:False,Visible:False,Sort:None,Position:86|Column#47=Name:spiceSymbolName,Fixed:False,Metric:False,Visible:False,Sort:None,Position:66|Column#48=Name:Resistance,Fixed:False,Metric:False,Visible:False,Sort:None,Position:61|Column#49=Name:Size / Dimension,Fixed:False,Metric:False,Visible:False,Sort:None,Position:63|Column#50=Name:Power Line Protection,Fixed:False,Metric:False,Visible:False,Sort:None,Position:58|Column#51=Name:Supplier 1,Fixed:False,Metric:False,Visible:False,Sort:None,Position:68|Column#52=Name:Tolerance,Fixed:False,Metric:False,Visible:False,Sort:None,Position:74|Column#53=Name:Lifecycle Status,Fixed:False,Metric:False,Visible:False,Sort:None,Position:41|Column#54=Name:nameAlias,Fixed:False,Metric:False,Visible:False,Sort:None,Position:47|Column#55=Name:Viewing Angle,Fixed:False,Metric:False,Visible:False,Sort:None,Position:78|Column#56=Name:Supplier Part Number 1,Fixed:False,Metric:False,Visible:False,Sort:None,Position:71|Column#57=Name:componentlink2url,Fixed:False,Metric:False,Visible:False,Sort:None,Position:23|Column#58=Name:Manufacturer Part,Fixed:False,Metric:False,Visible:False,Sort:None,Position:43|Column#59=Name:manufacturer,Fixed:False,Metric:False,Visible:False,Sort:None,Position:42|Column#60=Name:Supplier Device Package,Fixed:False,Metric:False,Visible:False,Sort:None,Position:69|Column#61=Name:Voltage - Forward (Vf) (Max) @ If,Fixed:False,Metric:False,Visible:False,Sort:None,Position:82|Column#62=Name:Millicandela Rating,Fixed:False,Metric:False,Visible:False,Sort:None,Position:44|Column#63=Name:Current - Average Rectified (Io),Fixed:False,Metric:False,Visible:False,Sort:None,Position:27|Column#64=Name:Lens Color,Fixed:False,Metric:False,Visible:False,Sort:None,Position:38|Column#65=Name:Voltage - Breakdown (Min),Fixed:False,Metric:False,Visible:False,Sort:None,Position:79|Column#66=Name:lastupdated,Fixed:False,Metric:False,Visible:False,Sort:None,Position:37|Column#67=Name:Type,Fixed:False,Metric:False,Visible:False,Sort:None,Position:75|Column#68=Name:Device Package,Fixed:False,Metric:False,Visible:False,Sort:None,Position:31|Column#69=Name:Wavelength - Peak,Fixed:False,Metric:False,Visible:False,Sort:None,Position:87|Column#70=Name:Composition,Fixed:False,Metric:False,Visible:False,Sort:None,Position:24|Column#71=Name:componentlink2description,Fixed:False,Metric:False,Visible:False,Sort:None,Position:22|Column#72=Name:Temperature Coefficient,Fixed:False,Metric:False,Visible:False,Sort:None,Position:72|Column#73=Name:Power - Peak Pulse,Fixed:False,Metric:False,Visible:False,Sort:None,Position:56|Column#74=Name:Unidirectional Channels,Fixed:False,Metric:False,Visible:False,Sort:None,Position:76|Column#75=Name:componentlink1url,Fixed:False,Metric:False,Visible:False,Sort:None,Position:21|Column#76=Name:Capacitance @ Frequency,Fixed:False,Metric:False,Visible:False,Sort:None,Position:18|Column#77=Name:Capacitance,Fixed:False,Metric:False,Visible:False,Sort:None,Position:17|Column#78=Name:Value,Fixed:False,Metric:False,Visible:False,Sort:None,Position:77|Column#79=Name:Color,Fixed:False,Metric:False,Visible:False,Sort:None,Position:19|Column#80=Name:series,Fixed:False,Metric:False,Visible:False,Sort:None,Position:62|Column#81=Name:Voltage - Reverse Standoff (Typ),Fixed:False,Metric:False,Visible:False,Sort:None,Position:85|Column#82=Name:componentlink1description,Fixed:False,Metric:False,Visible:False,Sort:None,Position:20|Column#83=Name:partid,Fixed:False,Metric:False,Visible:False,Sort:None,Position:55|Column#84=Name:Mounting Type,Fixed:False,Metric:False,Visible:False,Sort:None,Position:46|Column#85=Name:Features,Fixed:False,Metric:False,Visible:False,Sort:None,Position:33|Column#86=Name:price,Fixed:False,Metric:False,Visible:False,Sort:None,Position:59|Column#87=Name:Operating Temperature,Fixed:False,Metric:False,Visible:False,Sort:None,Position:49|Column#88=Name:Contributor,Fixed:False,Metric:False,Visible:False,Sort:None,Position:26|Column#89=Name:Capacitance @ Vr, F,Fixed:False,Metric:False,Visible:False,Sort:None,Position:88|DocumentPath=C:\_github\tank-monitoring\altium\ultrasonic_tank_monitor\ultrasonic_tank_monitor.PcbDoc
 OutputType3=Test Points For Assembly
 OutputName3=Test Point Report
 OutputDocumentPath3=
@@ -557,18 +545,6 @@ OutputDocumentPath1=
 OutputVariantName1=[No Variations]
 OutputDefault1=0
 PageOptions1=Record=PageOptions|CenterHorizontal=True|CenterVertical=True|PrintScale=1.00|XCorrection=1.00|YCorrection=1.00|PrintKind=1|BorderSize=5000000|LeftOffset=0|BottomOffset=0|Orientation=2|PaperLength=1000|PaperWidth=1000|Scale=100|PaperSource=7|PrintQuality=-3|MediaType=1|DitherType=10|PrintScaleMode=1|PaperKind=A4|PaperIndex=9
-Configuration1_Name1=ColumnNameFormat
-Configuration1_Item1=CaptionAsName
-Configuration1_Name2=ForceUpdateSettings
-Configuration1_Item2=False
-Configuration1_Name3=General
-Configuration1_Item3=OpenExported=False|AddToProject=False|ReportBOMViolationsInMessages=False|ForceFit=False|NotFitted=False|Database=False|DatabasePriority=False|IncludePcbData=False|IncludeVaultData=False|IncludeCloudData=False|IncludeDocumentData=True|IncludeAlternatives=False|ShowExportOptions=True|TemplateFilename=|TemplateVaultGuid=|TemplateItemGuid=|TemplateRevisionGuid=|BatchMode=5|FormWidth=1200|FormHeight=710|SupplierProdQty=1|SupplierAutoQty=False|SupplierUseCachedPricing=False|SupplierCurrency=USD|SolutionsPerItem=1|SuppliersPerSolution=1|ViewType=0|UseDirectApi=False|BomSetName=
-Configuration1_Name4=GroupOrder
-Configuration1_Item4=Comment=True|Footprint=True
-Configuration1_Name5=SortOrder
-Configuration1_Item5=Designator=Up|Comment=Up|Footprint=Up
-Configuration1_Name6=VisibleOrder
-Configuration1_Item6=Comment=120|Description=120|Designator=120|Footprint=120|LibRef=120|Quantity=120
 OutputType2=BOM_ReportCompare
 OutputName2=BOM Compare
 OutputDocumentPath2=
@@ -1197,8 +1173,8 @@ UpdateToLatestRevision=1
 PartTypes=0
 ComponentLibIdentifierKind0=Library Name And Type
 ComponentLibraryIdentifier0=Pidgeon_SCH.SchLib
-ComponentDesignItemID0=TP5000-ESOP8
-ComponentSymbolReference0=TP5000-ESOP8
+ComponentDesignItemID0=HDR-TH_8P-P2.54
+ComponentSymbolReference0=HDR-TH_8P-P2.54
 ComponentUpdate0=1
 ComponentIsDeviceSheet0=0
 FullReplace=1
@@ -1222,11 +1198,6 @@ ParameterName2=Description
 ParameterUpdate2=1
 ParameterName3=Library Reference
 ParameterUpdate3=1
-ModelTypeGroup0=PCBLIB
-ModelTypeUpdate0=1
-ModelType0=PCBLIB
-ModelName0=ESOP-8_L4.9-W3.9-P1.27-LS6.0-BL-EP
-ModelUpdate0=1
 
 [DatabaseUpdateOptions]
 SelectedOnly=0
