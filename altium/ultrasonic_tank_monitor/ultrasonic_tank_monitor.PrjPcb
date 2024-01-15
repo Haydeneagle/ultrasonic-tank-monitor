@@ -167,82 +167,78 @@ GenerateClassCluster=0
 DocumentUniqueId=
 
 [GeneratedDocument1]
-DocumentPath=Project Outputs for ultrasonic_tank_monitor\Design Rule Check - ultrasonic_tank_monitor.html
-DItemRevisionGUID=
-
-[GeneratedDocument2]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-RoundHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument3]
+[GeneratedDocument2]
 DocumentPath=Gerbers\ultrasonic_tank_monitor-SlotHoles.TXT
 DItemRevisionGUID=
 
-[GeneratedDocument4]
+[GeneratedDocument3]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.DRR
 DItemRevisionGUID=
 
-[GeneratedDocument5]
+[GeneratedDocument4]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.EXTREP
 DItemRevisionGUID=
 
-[GeneratedDocument6]
+[GeneratedDocument5]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBL
 DItemRevisionGUID=
 
-[GeneratedDocument7]
+[GeneratedDocument6]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GBS
 DItemRevisionGUID=
 
-[GeneratedDocument8]
+[GeneratedDocument7]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM1
 DItemRevisionGUID=
 
-[GeneratedDocument9]
+[GeneratedDocument8]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM2
 DItemRevisionGUID=
 
-[GeneratedDocument10]
+[GeneratedDocument9]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM13
 DItemRevisionGUID=
 
-[GeneratedDocument11]
+[GeneratedDocument10]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GM15
 DItemRevisionGUID=
 
-[GeneratedDocument12]
+[GeneratedDocument11]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPB
 DItemRevisionGUID=
 
-[GeneratedDocument13]
+[GeneratedDocument12]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GPT
 DItemRevisionGUID=
 
-[GeneratedDocument14]
+[GeneratedDocument13]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTL
 DItemRevisionGUID=
 
-[GeneratedDocument15]
+[GeneratedDocument14]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTO
 DItemRevisionGUID=
 
-[GeneratedDocument16]
+[GeneratedDocument15]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTP
 DItemRevisionGUID=
 
-[GeneratedDocument17]
+[GeneratedDocument16]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.GTS
 DItemRevisionGUID=
 
-[GeneratedDocument18]
+[GeneratedDocument17]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.LDP
 DItemRevisionGUID=
 
-[GeneratedDocument19]
+[GeneratedDocument18]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.REP
 DItemRevisionGUID=
 
-[GeneratedDocument20]
+[GeneratedDocument19]
 DocumentPath=Gerbers\ultrasonic_tank_monitor.RUL
 DItemRevisionGUID=
 
@@ -365,7 +361,7 @@ OutputDefault20=0
 [OutputGroup2]
 Name=Simulator Outputs
 Description=
-TargetPrinter=Canon MX720 series Printer WS
+TargetPrinter=Adobe PDF
 PrinterOptions=Record=PrinterOptions|Copies=1|Duplex=1|TrueTypeOptions=3|Collate=1|PrintJobKind=1|PrintWhat=1
 
 [OutputGroup3]
