@@ -98,3 +98,6 @@ All necessary software configuration takes place in the config.h and secret.h fi
 ## TO-DO
 * PCB Revision 2
 * Web based configuration page
+* Flash storage of configuration variables
+* Smoothing function
+* LoRa integration
