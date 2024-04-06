@@ -2,17 +2,10 @@
 /*
 this is the file 
 */
-#if defined(ESP8266) // for esp8266 libs
-  #include <ESP8266WiFi.h>
-  #include <ESPAsyncTCP.h>
-  #include <WiFiClient.h>
-  #include <WiFiManager.h>
-#elif defined(ESP32) // for esp32 libs
-  #include <WiFi.h>
-  #include <WiFiManager.h>
-  #include <AsyncTCP.h>
-#endif
 
+#include <WiFi.h>
+#include <WiFiManager.h>
+#include <AsyncTCP.h>
 #include <ESPAsyncWebServer.h>
 #include <ElegantOTA.h>
 #include <PubSubClient.h>
@@ -25,6 +18,7 @@ this is the file
 RTC_DATA_ATTR int bootCount = 0; // set boot count so we know not to transmit on initial load
 
 //construct objects, credentials stores in secret.h
+WiFiManager wifiManager;
 WiFiClient wifiClient;
 PubSubClient client(wifiClient);
 
@@ -72,11 +66,12 @@ void deepSleep() {
 
     client.disconnect(); //disconnect from broker cleanly
     wifiClient.flush(); //flush wifi before sleep
+    wifiClient.stop();
 
-    while( client.state() != -1){  
+/*     while( client.state() != -1){  //commented to check if this blockign causes it to get stuck
     Serial.println(client.state());
     delay(10);
-    }
+    } */
     esp_wifi_stop(); //force close wifi to be sure its off, drops from 1.6ma to 0.1ma
     esp_deep_sleep_start();
 }
@@ -84,20 +79,17 @@ void deepSleep() {
 // Wifi Manager
 void setupWifi() {
   Serial.println("Connecting to WiFi");
-  WiFiManager wifiManager;
 
   String HOTSPOT = id;
   wifiManager.setSaveConnectTimeout(10); //set for redundancy due to constant connect errors. Might have been USB power supply rated, as no problemms on battery
-  wifiManager.setConnectTimeout(10); 
-  wifiManager.setConnectRetries(5); // we have plenty of battery life and this will rule out any issues with long range connections
+  wifiManager.setConnectTimeout(15); 
+  wifiManager.setConnectRetries(10); // we have plenty of battery life and this will rule out any issues with long range connections
   wifiManager.setConfigPortalTimeout(120);
   if (!wifiManager.autoConnect((const char * ) HOTSPOT.c_str())) {
-    Serial.println("failed to connect and hit timeout");
-    delay(10000);
+    Serial.println("failed to connect and hit timeout, perform ESP.restart()");
+    delay(100);
     ESP.restart();
-    delay(5000);
   }
-
 }
 
 void sendMQTTPercentDiscoveryMsg() {
@@ -221,14 +213,15 @@ void setupMQTT() {
         counter += 1;    
         Serial.print("failed, rc=");
         Serial.print(client.state());
-        Serial.println(" try again in 5 seconds");
+        Serial.println(" try again in 2 seconds");
         // Wait 2 seconds before retrying
         delay(2000);
       }
       else // go to sleep, taking longer than 10 sec
       {
-        Serial.println("MQTT connection is taking too long, go to sleep and try again later.");
-        deepSleep();
+        Serial.println("MQTT connection is taking too long, restart esp and try again later.");
+        ESP.restart();
+        //deepSleep();
       }
     }
 }
@@ -239,12 +232,17 @@ void sendData(){
 
   //poll distance
   pinMode(periphPower, OUTPUT);
-  digitalWrite(periphPower, HIGH);  //turn on for data then low after sensing
-  delay(40);  //allow time for power up 10ms too low, 25 enough but allow 40 just to be safe
-  distance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
-  delay(40);  //allow time for measurements before shutting power off
-  digitalWrite(periphPower, LOW);
+  digitalWrite(periphPower, HIGH);  //enable peripherial power
+  delay(50);  //allow time for power up 50ms found to be sweet spot
 
+  distance = sonar[0].convert_cm(sonar[0].ping_median(10)); //find median of 10 pings in cm
+  delay(100);  //allow time for measurements before shutting power off
+
+  //if distance is less than tankAdjust, return tank adjust to show 100%
+  if (distance < tankAdjust) {
+    distance = tankAdjust;
+  }
+  
   //calculate volume
   tankVol =  (((distance-tankAdjust)*10)*tankArea);
   capacity = tankTotalVol - tankVol;
@@ -267,6 +265,8 @@ void sendData(){
   doc["capacity"] = capacity;
   size_t n = serializeJson(doc, buffer);
 
+  digitalWrite(periphPower, LOW); // disable power to peripherials
+
   //send to mqtt
   bool published = client.publish(stateTopic.c_str(), buffer, n);
 }
@@ -284,12 +284,11 @@ void setup() {
   digitalWrite(ledPin, HIGH); //active low, so disable
 
   setupWifi();
-
+  
   setupMQTT();
-
   for (int i = 0; i < 10; i++) {
     client.loop();
-    flashLED(100);
+    flashLED(200);
     delay(100);
   }
 
@@ -301,6 +300,7 @@ void setup() {
   }
   else {
     Serial.println("deepsleepdisable == 0");
+
     sendMQTTPercentDiscoveryMsg();
     sendMQTTCapacityDiscoveryMsg();
     sendMQTTDistanceDiscoveryMsg();
@@ -319,11 +319,17 @@ void setup() {
 void loop() {
   ElegantOTA.loop(); //has to be in loop to allow for reboot
 
+  if (!wifiClient.connected()){
+    Serial.println("Wifi Connection lost.. reconnecting");
+    setupWifi();
+  }
+
   if (!client.connected()) { //if lost mqtt connection, reconnect
     Serial.println("Connection lost.. reconnecting");
     setupMQTT();
   }
-  client.loop();//loop to subscribe to /ota topic for disable
+
+  client.loop();
 
   int TimeToPublish = 5000000; //5000000uS (5s)
   if ( (esp_timer_get_time() - lastPublish) >= TimeToPublish ) //transmit every 5s during active ota mode
@@ -331,12 +337,16 @@ void loop() {
       sendData();// data for mqtt publish
       lastPublish = esp_timer_get_time(); // get next publish time
       Serial.println(lastPublish/1000000); //debugging to check timings
-
       Serial.println(client.state());
     }
 
-  //enter deep sleep as soon as /ota topic changed
+  //if deepsleep or timer expired, restart/deepsleep
   if (deepSleepDisable == 0) {
+    Serial.println("deepSleepDisable == 0");
+    Serial.println("Entering deep sleep");
     deepSleep();
+  }
+  else if (esp_timer_get_time() >= 300000000){ //5 minutes restart to ensure no stuck loop
+    ESP.restart();
   }
 }

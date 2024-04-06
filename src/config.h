@@ -4,7 +4,7 @@ Config file for board including user changable variables
 
 
 #define uS_TO_S_FACTOR 1000000  /* Conversion factor for micro seconds to seconds */
-#define TIME_TO_SLEEP  600        /* Time ESP32 will go to sleep (in seconds) */
+#define TIME_TO_SLEEP  600       /* Time ESP32 will go to sleep (in seconds) */
 
 #define SONAR_NUM 1      // Number of sensors.
 #define MAX_DISTANCE 350 // Maximum distance (in cm) to ping.
@@ -20,9 +20,9 @@ const char* mqtt_server = "10.0.30.2";
 
 
 //physical measurements ADJUST FOR INDIVIDUAL TANK DIMENSIONS
-const int tankAdjust = 57; //distance from the bottom of the ultrasonic tranducer to the full water level mark
-const int tankTotalVol = 22500;    //total water volume in L
-const float tankDiameter = 3.56;
+const int tankAdjust = 47; //distance from the bottom of the ultrasonic tranducer to the full water level mark
+const int tankTotalVol = 27250;    //total water volume in L
+const float tankDiameter = 3.65;
 const float tankRadius = tankDiameter/2;
 const float tankArea = M_PI * (tankRadius*tankRadius); //tank area m2
 
